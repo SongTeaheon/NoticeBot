@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">시립대 알림봇 (Proto)</string>
+
+    <string name="title_home">홈</string>
+    <string name="title_notifications">공지사항</string>
+    <string name="title_setting">설정</string>
+    <string name="title_custom">편집</string>
+</resources>

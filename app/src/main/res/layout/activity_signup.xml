@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android = "http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingTop="20dp"
+    android:paddingLeft="1dp"
+    android:paddingRight="1dp"
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+
+        android:gravity="center"
+        android:text="회원가입"
+        android:textColor="@android:color/holo_blue_dark"
+        android:layout_marginBottom="100dp"
+        >
+    </TextView>
+
+
+    <EditText
+        android:layout_width="280dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:hint="ID"
+        android:layout_marginBottom="20dp"
+        android:id="@+id/EditText_NEWemail"
+        >
+    </EditText>
+
+    <EditText
+        android:layout_width="280dp"
+        android:layout_height="50dp"
+        android:password="true"
+        android:layout_gravity="center"
+        android:hint="Password"
+        android:layout_marginBottom="20dp"
+        android:id="@+id/EditText_NEWpassword"
+        >
+    </EditText>
+
+    <EditText
+        android:layout_width="280dp"
+        android:layout_height="50dp"
+        android:password="true"
+        android:layout_gravity="center"
+        android:hint="Password Check"
+        android:layout_marginBottom="60dp"
+        android:id="@+id/EditText_NEWpasswordcheck"
+        >
+    </EditText>
+
+    <Button
+        android:id="@+id/Button_SignupConfirmed"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:background="@drawable/btn_green"
+        android:textColor="#ffffff"
+        android:text="확인"
+        android:textSize="20dp"
+        android:layout_marginBottom="50dp"
+        >
+    </Button>
+
+
+
+</LinearLayout>

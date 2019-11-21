@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--selector라는 디자인 요소 정의-->
+<selector xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+<!--    평소 상태일 때의 정의-->
+    <item android:state_enabled="true">
+<!--        모양에 대한 설명-->
+        <shape>
+<!--            색상에 대한 설정-->
+            <solid android:color="#3a5994">
+
+            </solid>
+<!--            코너는 라운드 쉐입(radius 크기에 따라 더 깎인다)-->
+            <corners android:radius="20dp">
+
+            </corners>
+        </shape>
+    </item>
+
+    <!--    누른 상태일 때의 정의-->
+    <item android:state_enabled="false">
+        <!--        모양에 대한 설명-->
+        <shape>
+            <!--            색상에 대한 설정-->
+            <solid android:color="#ffff00">
+
+            </solid>
+            <!--            코너는 라운드 쉐입(radius 크기에 따라 더 깎인다)-->
+            <corners android:radius="20dp">
+
+            </corners>
+        </shape>
+    </item>
+
+</selector>
+

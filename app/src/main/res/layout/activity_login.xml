@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android = "http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingTop="20dp"
+    android:paddingLeft="1dp"
+    android:paddingRight="1dp"
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="50sp"
+
+        android:gravity="center"
+        android:text="시립대 알림봇"
+        android:textColor="@android:color/holo_blue_dark"
+        android:layout_marginBottom="40dp"
+        >
+    </TextView>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@null"
+        android:src="@drawable/ic_uoslogo"
+        android:gravity="center"
+        android:layout_marginBottom="80dp"
+        >
+    </ImageView>
+
+
+    <EditText
+        android:layout_width="280dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:hint="ID"
+        android:layout_marginBottom="20dp"
+        android:id="@+id/EditText_email"
+        >
+    </EditText>
+
+    <EditText
+        android:layout_width="280dp"
+        android:layout_height="50dp"
+        android:password="true"
+        android:layout_gravity="center"
+        android:hint="Password"
+        android:layout_marginBottom="60dp"
+        android:id="@+id/EditText_password"
+        >
+    </EditText>
+
+    <Button
+        android:id="@+id/Button_Login"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:background="@drawable/btn_blue_veri"
+        android:textColor="#ffffff"
+        android:text="로그인"
+        android:textSize="20dp"
+        android:layout_marginBottom="50dp"
+        >
+    </Button>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:weightSum="10"
+        >
+        <Button
+            android:id="@+id/Button_Signup"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:text="회원가입"
+            android:textSize="15dp"
+            android:background="@drawable/btn_green"
+            android:textColor="#ffffff"
+            android:layout_marginBottom="20dp"
+            android:layout_weight="3"
+            >
+        </Button>
+
+
+    </LinearLayout>
+
+</LinearLayout>
+
+    <!--
+    ImageView를 이용해서 이미지를 참조해온다
+    Button을 이용해서 버튼을 만든다
+    LinearLayour에서는 android:layout_marginBottom="30dp"을 이용해  아래와 간격을 조정한다
+    padding을 통해 바깥 쪽으로부터의 윤곽을  사용한다
+    -->
