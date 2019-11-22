@@ -13,9 +13,13 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 
-public class LoginActivity extends AppCompatActivity {
-    //컴포넌트를 입력하고, 해당 컴포넌트의 아이디들을 나열한 뒤, Alt + Enter를 하면 위에 import 항이 추가된다.
+
+public class LoginActivity extends AppCompatActivity implements HttpCallback{
+    private final String TAG = "TAGLoginActivity";
+
     EditText EditText_email, EditText_password;
     Button Button_Login, Button_Signup;
 
@@ -35,50 +39,6 @@ public class LoginActivity extends AppCompatActivity {
         Button_Login = findViewById(R.id.Button_Login);
         Button_Signup = findViewById(R.id.Button_Signup);
 
-        //ID, password가 일치하는지 체크
-//        EditText_email.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-////                Log.d("SENTI", s + "," + count);\
-//                //toString은 null이면 에러가 나므로 조건문 활용해야 함
-//                if(s!=null) {
-//                    InputEmail = s.toString();
-//                    Button_Login.setEnabled(validation());
-//                }
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//
-//            }
-//        });
-//
-//        EditText_password.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                Log.d("SENTI", s + "," + count);
-//                if(s!=null) {
-//                    InputPassword = s.toString();
-//                    Button_Login.setEnabled(validation());
-//                }
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//
-//            }
-//        });
-
         //로그인 버튼
         Button_Login.setClickable(true);
         Button_Login.setOnClickListener(new View.OnClickListener() {
@@ -86,32 +46,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String email = EditText_email.getText().toString();
                 String password = EditText_password.getText().toString();
-
-                if(loginAccess(email, password)) {
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-
-                    //Intent 형으로 정의된 intent의 putExtra 기능을 통해 email과 passsword를 전송한다.
-                    intent.putExtra("email", email);
-                    intent.putExtra( "password", password);
-
-                    //이를 전달해 그 다음 Activity를 시작한다.
-                    startActivity(intent);
-                }
-
-                //아이디 비밀번호가 존재하지 않을 경우
-                else {
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoginActivity.this);
-                    alertDialogBuilder.setTitle("회원정보 불일치");
-                    alertDialogBuilder
-                            .setMessage("아이디 혹은 비밀번호가 일치하지 않습니다.")
-                            .setPositiveButton("확인", new DialogInterface.OnClickListener(){
-                                public void onClick(DialogInterface dialog, int whichButton){
-                                    dialog.cancel();
-                                }
-                            });
-                    AlertDialog alertDialog = alertDialogBuilder.create();
-                    alertDialog.show();
-                }
+                login(email, password);
             }
         });
 
@@ -121,15 +56,56 @@ public class LoginActivity extends AppCompatActivity {
         Button_Signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent (LoginActivity.this, SignupActivity.class);
-                startActivity(intent);
+                moveToSignupActivity();
             }
         });
     }
 
-    //사용자가 입력한 이메일과 비밀번호가 일치하는지를 체크하여 반환하는 함수
-    public boolean loginAccess(String InputEmail, String InputPassword) {
-        return emailOK.equals(InputEmail) && passwordOK.equals(InputPassword);
+    /*
+    * login하는 함수. JsonObject로 ID, PW를 넣어서 서버로 보내준다.
+    * */
+    private void login(String email, String password){
+        Log.d(TAG, "login func start");
+        try {
+            JSONObject data = new JSONObject();
+            data.put("type", "login");
+            data.put("id", email);
+            data.put("pw", password);
+            NetworkTask networkTask = new NetworkTask(this, data, "login");
+            networkTask.execute();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
+    private void moveToMainActivity(){
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        startActivity(intent);
+    }
+    private void moveToSignupActivity(){
+        Intent intent = new Intent (LoginActivity.this, SignupActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void callback(JSONObject resultJson) {
+        Log.d(TAG, "login callback called");
+        moveToMainActivity();
+
+        //TODO: resultJson에 따라서 예외처리!!
+//        if(isLoginSuccess()) {
+//        }else {//아이디 비밀번호가 존재하지 않을 경우
+//            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoginActivity.this);
+//            alertDialogBuilder.setTitle("회원정보 불일치");
+//            alertDialogBuilder
+//                    .setMessage("아이디 혹은 비밀번호가 일치하지 않습니다.")
+//                    .setPositiveButton("확인", new DialogInterface.OnClickListener(){
+//                        public void onClick(DialogInterface dialog, int whichButton){
+//                            dialog.cancel();
+//                        }
+//                    });
+//            AlertDialog alertDialog = alertDialogBuilder.create();
+//            alertDialog.show();
+//        }
+    }
 }
