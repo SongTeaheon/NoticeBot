@@ -39,6 +39,8 @@ public class LoginActivity extends AppCompatActivity implements HttpCallback{
         Button_Login = findViewById(R.id.Button_Login);
         Button_Signup = findViewById(R.id.Button_Signup);
 
+
+
         //로그인 버튼
         Button_Login.setClickable(true);
         Button_Login.setOnClickListener(new View.OnClickListener() {
