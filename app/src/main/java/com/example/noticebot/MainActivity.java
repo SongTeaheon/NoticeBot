@@ -3,37 +3,32 @@ package com.example.noticebot;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 
 import android.os.Bundle;
 import android.widget.Toast;
-
-import com.example.noticebot.MainNoticesAdapter;
-import com.example.noticebot.SampleNotices;
-import com.example.noticebot.R;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     RecyclerView mRecyclerView = null;
-    ArrayList<SampleNotices> mList = new ArrayList<SampleNotices>();
+    ArrayList<DataNotices> mList = new ArrayList<DataNotices>();
     MainNoticesAdapter mAdapter;
 
+    //화면 레이아웃
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //메뉴 액션바
         getSupportActionBar().setTitle("ACTIONBAR");
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xFF339999));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -54,8 +49,9 @@ public class MainActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
     }
 
+    //리사이클러 뷰 아이템 형성
     public void addItem(String title, String link) {
-        SampleNotices item = new SampleNotices();
+        DataNotices item = new DataNotices();
 
         item.setTitle(title);
         item.setLink(link);
@@ -76,8 +72,10 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
         //설정 버튼 눌렀을 때
         if (id == R.id.menu_setting) {
-            Toast.makeText(this, "설정 클릭", Toast.LENGTH_SHORT).show();
-            return true;
+            Intent intent = new Intent(MainActivity.this, CustomActivity.class);
+            startActivity(intent);
+//            Toast.makeText(this, "설정 클릭", Toast.LENGTH_SHORT).show();
+//            return true;
         }
 
         //로그아웃 버튼 눌렀을 때

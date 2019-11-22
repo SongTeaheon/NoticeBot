@@ -5,4 +5,6 @@
     <string name="title_notifications">공지사항</string>
     <string name="title_setting">설정</string>
     <string name="title_logout">로그아웃</string>
+    <string name="btn_board1">일반</string>
+    <string name="btn_board2">학사</string>
 </resources>

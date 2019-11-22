@@ -1,6 +1,6 @@
 package com.example.noticebot;
 
-public class SampleKeywords {
+public class DataKeywords {
 
     private String keyword;
 
@@ -10,6 +10,10 @@ public class SampleKeywords {
 
     public void setKeyword(String title) {
         this.keyword = title;
+    }
+
+    public DataKeywords(String newKeyword) {
+        keyword = newKeyword;
     }
 
 }
