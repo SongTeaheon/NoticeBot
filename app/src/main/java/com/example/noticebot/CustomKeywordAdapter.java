@@ -10,36 +10,36 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class MainNoticesAdapter extends RecyclerView.Adapter<MainNoticesAdapter.NoticesViewHolder> {
+public class CustomKeywordAdapter extends RecyclerView.Adapter<CustomKeywordAdapter.KeywordCustomViewHolder> {
     private ArrayList<DataNotices> mList;
 
-    public class NoticesViewHolder extends RecyclerView.ViewHolder {
+    public class KeywordCustomViewHolder extends RecyclerView.ViewHolder {
         protected TextView title;
         protected TextView link;
 
-        public NoticesViewHolder(View view) {
+        public KeywordCustomViewHolder(View view) {
             super(view);
             this.title = (TextView) view.findViewById(R.id.title);
             this.link = (TextView) view.findViewById(R.id.link);
         }
     }
 
-    public MainNoticesAdapter(ArrayList<DataNotices> list) {
+    public CustomKeywordAdapter(ArrayList<DataNotices> list) {
         this.mList = list;
     }
 
     @Override
-    public NoticesViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+    public KeywordCustomViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.item_notices, viewGroup, false);
 
-        NoticesViewHolder viewHolder = new NoticesViewHolder(view);
+        KeywordCustomViewHolder viewHolder =  new KeywordCustomViewHolder(view);
 
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull NoticesViewHolder viewholder, int position) {
+    public void onBindViewHolder(@NonNull CustomKeywordAdapter.KeywordCustomViewHolder viewholder, int position) {
         DataNotices item = mList.get(position) ;
 
         viewholder.title.setText(item.getTitle());

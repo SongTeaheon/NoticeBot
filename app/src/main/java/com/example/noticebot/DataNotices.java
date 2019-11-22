@@ -1,6 +1,6 @@
 package com.example.noticebot;
 
-public class SampleNotices {
+public class DataNotices {
 
     private String title;
     private String link;
