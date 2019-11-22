@@ -15,7 +15,7 @@ import java.net.URL;
 
 public class HttpConnection {
 
-    private final String urlStr = "http://songtaeheon.pythonanywhere.com/";
+    private final String urlStr = "http://yh401.pythonanywhere.com/";
     private final String TAG = "TAGRequestHttpCon";
 
     public JSONObject request(JSONObject _params, String target) {
@@ -59,6 +59,7 @@ public class HttpConnection {
                 byteData = baos.toByteArray();
 
                 response = new String(byteData);
+                Log.i(TAG, "DATA response string = " + response);
 
                 JSONObject responseJSON = new JSONObject(response);
 

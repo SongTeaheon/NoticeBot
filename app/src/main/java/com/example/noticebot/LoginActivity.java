@@ -20,7 +20,7 @@ import org.json.JSONObject;
 public class LoginActivity extends AppCompatActivity implements HttpCallback{
     private final String TAG = "TAGLoginActivity";
 
-    EditText EditText_email, EditText_password;
+    EditText EditText_name, EditText_password;
     Button Button_Login, Button_Signup;
 
     //테스트 계정들
@@ -34,7 +34,7 @@ public class LoginActivity extends AppCompatActivity implements HttpCallback{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        EditText_email = findViewById(R.id.EditText_email);
+        EditText_name = findViewById(R.id.EditText_email);
         EditText_password = findViewById(R.id.EditText_password);
         Button_Login = findViewById(R.id.Button_Login);
         Button_Signup = findViewById(R.id.Button_Signup);
@@ -46,9 +46,14 @@ public class LoginActivity extends AppCompatActivity implements HttpCallback{
         Button_Login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = EditText_email.getText().toString();
+                String name = EditText_name.getText().toString();
                 String password = EditText_password.getText().toString();
-                login(email, password);
+                Log.d(TAG, "name :" + name);
+                if(name.isEmpty()|| password.isEmpty()){
+                    AlertUtils.alertFunc(LoginActivity.this, "값 없음", "아이디와 비밀번호를 모두 넣어주세요");
+                }else {
+                    login(name, password);
+                }
             }
         });
 
@@ -66,12 +71,12 @@ public class LoginActivity extends AppCompatActivity implements HttpCallback{
     /*
     * login하는 함수. JsonObject로 ID, PW를 넣어서 서버로 보내준다.
     * */
-    private void login(String email, String password){
+    private void login(String name, String password){
         Log.d(TAG, "login func start");
         try {
             JSONObject data = new JSONObject();
             data.put("type", "login");
-            data.put("id", email);
+            data.put("name", name);
             data.put("pw", password);
             NetworkTask networkTask = new NetworkTask(this, data, "login");
             networkTask.execute();
@@ -110,4 +115,5 @@ public class LoginActivity extends AppCompatActivity implements HttpCallback{
 //            alertDialog.show();
 //        }
     }
+
 }
