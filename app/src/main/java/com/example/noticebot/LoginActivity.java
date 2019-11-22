@@ -35,49 +35,7 @@ public class LoginActivity extends AppCompatActivity {
         Button_Login = findViewById(R.id.Button_Login);
         Button_Signup = findViewById(R.id.Button_Signup);
 
-        //ID, password가 일치하는지 체크
-//        EditText_email.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-////                Log.d("SENTI", s + "," + count);\
-//                //toString은 null이면 에러가 나므로 조건문 활용해야 함
-//                if(s!=null) {
-//                    InputEmail = s.toString();
-//                    Button_Login.setEnabled(validation());
-//                }
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//
-//            }
-//        });
-//
-//        EditText_password.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                Log.d("SENTI", s + "," + count);
-//                if(s!=null) {
-//                    InputPassword = s.toString();
-//                    Button_Login.setEnabled(validation());
-//                }
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//
-//            }
-//        });
+
 
         //로그인 버튼
         Button_Login.setClickable(true);
