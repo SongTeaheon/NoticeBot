@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.view.Menu;
@@ -29,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //메뉴 액션바
-        getSupportActionBar().setTitle("ACTIONBAR");
+        getSupportActionBar().setTitle("메인화면");
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xFF339999));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -80,9 +82,18 @@ public class MainActivity extends AppCompatActivity {
 
         //로그아웃 버튼 눌렀을 때
         if (id == R.id.menu_logout) {
-            Toast.makeText(this, "로그아웃 클릭", Toast.LENGTH_SHORT).show();
-            return true;
+            alertLogout();
+//            Toast.makeText(this, "로그아웃 클릭", Toast.LENGTH_SHORT).show();
+//            return true;
         }
+
+        //나가기 버튼 눌렀을 때
+        switch (item.getItemId()){
+            case android.R.id.home:{
+                alertExit();
+            }
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -93,5 +104,61 @@ public class MainActivity extends AppCompatActivity {
             actionBar.hide();
     }
 
+    //로그아웃 경고창
+    private void alertLogout() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+        alertDialogBuilder.setTitle("로그 아웃");
+        alertDialogBuilder
+                .setMessage("로그아웃을 하시면 앱 내 저장된 자료가 초기화 됩니다. 로그아웃을 하시겠습니까?")
+                .setCancelable(false)
+                .setPositiveButton("확인",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(
+                                    DialogInterface dialog, int id) {
+                                MainActivity.this.finish();
+                            }
+                        })
+                .setNegativeButton("취소",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(
+                                    DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
+    //종료 경고창
+    private void alertExit(){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+        alertDialogBuilder.setTitle("프로그램 종료");
+        alertDialogBuilder
+                .setMessage("프로그램을 종료하시겠습니까?")
+                .setCancelable(false)
+                .setPositiveButton("확인",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(
+                                    DialogInterface dialog, int id) {
+                                // 프로그램을 종료한다
+                                moveTaskToBack(true);
+                            }
+                        })
+                .setNegativeButton("취소",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(
+                                    DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
+    //뒤로가기 버튼 눌렀을 경우
+    @Override
+    public void onBackPressed() {
+        alertExit();
+    }
 
 }

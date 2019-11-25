@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.view.MenuItem;
 import android.view.View;
 
 import android.os.Bundle;
@@ -29,6 +31,11 @@ public class CustomActivity extends AppCompatActivity {
         setContentView(R.layout.activity_custom);
 
         Button_Edit  = findViewById(R.id.Button_Edit);
+
+        //메뉴 액션바
+        getSupportActionBar().setTitle("사용자 설정");
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xFF339999));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //토글 스위치
         final ToggleButton function_switch = (ToggleButton)this
@@ -69,7 +76,6 @@ public class CustomActivity extends AppCompatActivity {
         });
     }
 
-
     //리사이클러 뷰 아이템 형성
     public void addItem(String title, String link) {
         DataNotices item = new DataNotices();
@@ -78,6 +84,18 @@ public class CustomActivity extends AppCompatActivity {
         item.setLink(link);
 
         mList.add(item);
+    }
+
+    //뒤로가기 버튼 설정
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:{ //toolbar의 back키 눌렀을 때 동작
+                finish();
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }

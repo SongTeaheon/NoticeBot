@@ -6,9 +6,13 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -34,6 +38,11 @@ public class EditActivity extends AppCompatActivity {
     protected void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
         setContentView(R.layout.activity_edit);
+
+        //메뉴 액션바
+        getSupportActionBar().setTitle("키워드 관리");
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xFF339999));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         keyword_typing = findViewById(R.id.keyword_typing);
 //        keyword_add = findViewById(R.id.keyword_add);
@@ -137,7 +146,49 @@ public class EditActivity extends AppCompatActivity {
 //                String newKeyword = keyword_add.getText().toString();
 //            }
 //        });
+    }
 
+    //나가기 버튼 설정
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:{ //toolbar의 back키 눌렀을 때 동작
+                alertSaveChange();
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    //나가기 경고 알림
+    private void alertSaveChange(){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(EditActivity.this);
+        alertDialogBuilder.setTitle("변경사항 저장");
+        alertDialogBuilder
+                .setMessage("변경사항을 저장하시겠습니까?")
+                .setCancelable(false)
+                .setPositiveButton("확인",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(
+                                    DialogInterface dialog, int id) {
+                                // 프로그램을 종료한다
+                                EditActivity.this.finish();
+                            }
+                        })
+                .setNegativeButton("취소",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(
+                                    DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
+    //뒤로가기 버튼 눌렀을 경우
+    @Override
+    public void onBackPressed() {
+        alertSaveChange();
     }
 
     //리사이클러 뷰 기존 아이템 형성
