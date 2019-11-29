@@ -8,10 +8,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -23,8 +25,9 @@ import android.widget.ToggleButton;
 import java.util.ArrayList;
 
 public class EditActivity extends AppCompatActivity {
+    private final String TAG = "TAGEditActivity";
 
-    private ArrayList<DataKeywords> mArrayList;
+    private ArrayList<String> mList;
     private EditAdapter mAdapter;
     private int count = -1;
 
@@ -39,6 +42,8 @@ public class EditActivity extends AppCompatActivity {
         super.onCreate(saveInstanceState);
         setContentView(R.layout.activity_edit);
 
+        Intent intent = getIntent();
+        mList = intent.getStringArrayListExtra("list");
         //메뉴 액션바
         getSupportActionBar().setTitle("키워드 관리");
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xFF339999));
@@ -47,27 +52,27 @@ public class EditActivity extends AppCompatActivity {
         keyword_typing = findViewById(R.id.keyword_typing);
 //        keyword_add = findViewById(R.id.keyword_add);
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview_keyword_edit);
+        mRecyclerView = findViewById(R.id.recyclerview_keyword_edit);
         LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
 
-        mArrayList = new ArrayList<>();
-        DataKeywords data = new DataKeywords("Apple");
+//        mArrayList = new ArrayList<>();
+//        DataKeywords data = new DataKeywords("Apple");
+//
+//        //기존 항목 불러오는 것
+//        mArrayList.add(data);
+//        mArrayList.add(data);
+//        mArrayList.add(data);
+//        mArrayList.add(data);
+//        mArrayList.add(data);
 
-        //기존 항목 불러오는 것
-        mArrayList.add(data);
-        mArrayList.add(data);
-        mArrayList.add(data);
-        mArrayList.add(data);
-        mArrayList.add(data);
 
-
-        mAdapter = new EditAdapter(mArrayList);
+        mAdapter = new EditAdapter(mList);
         mRecyclerView.setAdapter(mAdapter);
 
 
         //토글 스위치 (board 1)
-        final ToggleButton toggleBoard1 = (ToggleButton)this
+        final ToggleButton toggleBoard1 = this
                 .findViewById(R.id.Toggle_Board1);
         toggleBoard1.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
@@ -80,7 +85,7 @@ public class EditActivity extends AppCompatActivity {
         });
 
         //토글 스위치 (board 2)
-        final ToggleButton toggleBoard2 = (ToggleButton)this
+        final ToggleButton toggleBoard2 = this
                 .findViewById(R.id.Toggle_Board2);
         toggleBoard2.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
@@ -100,14 +105,14 @@ public class EditActivity extends AppCompatActivity {
                 mLinearLayoutManager.getOrientation());
         mRecyclerView.addItemDecoration(dividerItemDecoration);
 
-        Button buttonInsert = (Button)findViewById(R.id.keyword_add);
+        Button buttonInsert = findViewById(R.id.keyword_add);
         buttonInsert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 count++;
                 String str = keyword_typing.getText().toString();
-                DataKeywords data = new DataKeywords(str);
-                mArrayList.add(data);   //RecyclerView의 마지막 줄에 삽입
+                mList.add(str);   //RecyclerView의 마지막 줄에 삽입
+                Log.d(TAG, "plus btn mlistSize " + mList.size());
 
                 mAdapter.notifyDataSetChanged();
             }
@@ -151,10 +156,10 @@ public class EditActivity extends AppCompatActivity {
     //나가기 버튼 설정
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case android.R.id.home:{ //toolbar의 back키 눌렀을 때 동작
+        //switch문을
+        if(item.getItemId() == android.R.id.home){
+            //toolbar의 back키 눌렀을 때 동작
                 alertSaveChange();
-            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -171,14 +176,24 @@ public class EditActivity extends AppCompatActivity {
                             public void onClick(
                                     DialogInterface dialog, int id) {
                                 // 프로그램을 종료한다
-                                EditActivity.this.finish();
+                                Intent intent = new Intent();
+                                Log.d(TAG, "save change. mlistSize " + mList.size());
+                                intent.putStringArrayListExtra("list", mList);
+                                intent.putExtra("save", 1);
+                                setResult(RESULT_OK, intent);
+                                finish();
                             }
                         })
                 .setNegativeButton("취소",
                         new DialogInterface.OnClickListener() {
                             public void onClick(
                                     DialogInterface dialog, int id) {
-                                dialog.cancel();
+                                // 프로그램을 종료한다
+                                Intent intent = new Intent();
+                                Log.d(TAG, "no change. ");
+                                intent.putExtra("save", 0);
+                                setResult(RESULT_OK, intent);
+                                finish();
                             }
                         });
         AlertDialog alertDialog = alertDialogBuilder.create();

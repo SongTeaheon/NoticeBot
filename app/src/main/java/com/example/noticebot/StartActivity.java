@@ -37,8 +37,9 @@ public class StartActivity extends AppCompatActivity {
 //        }
 //        //로그인 되어있는 경우
 //        else {
+//
 //            Intent intent = new Intent(StartActivity.this, MainActivity.class);
 //            startActivity(intent);
-//        }
+////        }
     }
 }

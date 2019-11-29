@@ -11,27 +11,25 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class CustomKeywordAdapter extends RecyclerView.Adapter<CustomKeywordAdapter.KeywordCustomViewHolder> {
-    private ArrayList<DataNotices> mList;
+    private ArrayList<String> mList;
 
-    public class KeywordCustomViewHolder extends RecyclerView.ViewHolder {
+    protected class KeywordCustomViewHolder extends RecyclerView.ViewHolder {
         protected TextView title;
-        protected TextView link;
 
         public KeywordCustomViewHolder(View view) {
             super(view);
-            this.title = (TextView) view.findViewById(R.id.title);
-            this.link = (TextView) view.findViewById(R.id.link);
+            this.title = view.findViewById(R.id.keyword_custom);
         }
     }
 
-    public CustomKeywordAdapter(ArrayList<DataNotices> list) {
+    public CustomKeywordAdapter(ArrayList<String> list) {
         this.mList = list;
     }
 
     @Override
     public KeywordCustomViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View view = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.item_notices, viewGroup, false);
+                .inflate(R.layout.item_keyowrds_custom, viewGroup, false);
 
         KeywordCustomViewHolder viewHolder =  new KeywordCustomViewHolder(view);
 
@@ -40,10 +38,9 @@ public class CustomKeywordAdapter extends RecyclerView.Adapter<CustomKeywordAdap
 
     @Override
     public void onBindViewHolder(@NonNull CustomKeywordAdapter.KeywordCustomViewHolder viewholder, int position) {
-        DataNotices item = mList.get(position) ;
+        String item = mList.get(position) ;
 
-        viewholder.title.setText(item.getTitle());
-        viewholder.link.setText(item.getLink()) ;
+        viewholder.title.setText(item);
     }
 
     @Override

@@ -12,18 +12,18 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class EditAdapter extends RecyclerView.Adapter<EditAdapter.KeywordEditViewHolder> {
-    private ArrayList<DataKeywords> mList;
+    private ArrayList<String> mList;
 
     public class KeywordEditViewHolder extends RecyclerView.ViewHolder {
         protected TextView keyword_edit;
 
         public KeywordEditViewHolder(View view) {
             super(view);
-            this.keyword_edit = (TextView) view.findViewById(R.id.keyword_edit);
+            this.keyword_edit = view.findViewById(R.id.keyword_edit);
         }
     }
 
-    public EditAdapter(ArrayList<DataKeywords> list) {
+    public EditAdapter(ArrayList<String> list) {
         this.mList = list;
     }
 
@@ -40,7 +40,7 @@ public class EditAdapter extends RecyclerView.Adapter<EditAdapter.KeywordEditVie
     @Override
     public void onBindViewHolder(@NonNull KeywordEditViewHolder viewholder, int position) {
 //        DataKeywords item = mList.get(position);
-        viewholder.keyword_edit.setText(mList.get(position).getKeyword());
+        viewholder.keyword_edit.setText(mList.get(position));
     }
 
     @Override

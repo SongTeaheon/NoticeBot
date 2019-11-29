@@ -4,8 +4,6 @@ public class DataNotices {
 
     private String title;
     private String link;
-    private String[] title_N = new String[10];
-    private String[] link_N = new String[10];
 
     public String getTitle() {
         return title;
