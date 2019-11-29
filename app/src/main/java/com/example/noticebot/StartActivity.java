@@ -31,7 +31,7 @@ public class StartActivity extends AppCompatActivity {
 
     void checkNewLogin() {
         //새로 로그인  하는 경우
-        if(1 == 2) { //로그인 확인하는 오퍼레이션 들어가야 함
+        if(1 == 1) { //로그인 확인하는 오퍼레이션 들어가야 함
             Intent intent = new Intent(StartActivity.this, LoginActivity.class);
             startActivity(intent);
         }
