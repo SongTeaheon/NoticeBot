@@ -4,7 +4,6 @@ public class DataNotices {
 
     private String title;
     private String link;
-    private String keyword;
 
     public String getTitle() {
         return title;
@@ -20,14 +19,6 @@ public class DataNotices {
 
     public void setLink(String link) {
         this.link = link;
-    }
-
-    public String getKeyword() {
-        return keyword;
-    }
-
-    public void setKeword(String keyword) {
-        this.keyword = keyword;
     }
 
 }

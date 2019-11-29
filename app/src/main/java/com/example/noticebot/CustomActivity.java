@@ -8,21 +8,25 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.view.Menu;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import java.util.ArrayList;
 
 public class CustomActivity extends AppCompatActivity {
 
+    private final String TAG = "TAGCustomActivity";
+    private final int EDIT_ACTIVITY_REQUEST_CODE = 1001;
     RecyclerView mRecyclerView = null;
-    ArrayList<DataNotices> mList = new ArrayList<DataNotices>();
-    MainNoticesAdapter mAdapter;
+    ArrayList<String> mList = new ArrayList<>();
+    CustomKeywordAdapter mAdapter;
+
 
     @Override
     protected void onCreate(Bundle saveInstanceState) {
@@ -35,7 +39,7 @@ public class CustomActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //토글 스위치
-        final ToggleButton function_switch = (ToggleButton)this
+        final ToggleButton function_switch = this
                 .findViewById(R.id.fucntion_switch);
         function_switch.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
@@ -48,19 +52,20 @@ public class CustomActivity extends AppCompatActivity {
         });
 
         //리사이클러뷰 (키워드)
-        RecyclerView recyclerView = findViewById(R.id.recyclerview_keyword_custom);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView = findViewById(R.id.recyclerview_keyword_custom);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // dummy data
+        for (int i = 0; i < 20; i++) {
+            mList.add("키워드"+ i);
+        }
+
 
         // 리사이클러뷰에 SimpleTextAdapter 객체 지정.
-        CustomKeywordAdapter adapter = new CustomKeywordAdapter(mList);
-        recyclerView.setAdapter(adapter);
+        mAdapter = new CustomKeywordAdapter(mList);
+        mRecyclerView.setAdapter(mAdapter);
 
-        // 리사이클러뷰에 표시할 데이터 리스트 생성. (for 구문)
-        for (int i = 0; i < 20; i++) {
-            addItem("제목" + (i + 1), "urls" + (i + 1));
 
-        }
-        adapter.notifyDataSetChanged();
 
         //편집 버튼
 //        Button_Edit.setClickable(true);
@@ -89,25 +94,32 @@ public class CustomActivity extends AppCompatActivity {
     //뒤로가기 버튼 설정
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        switch (item.getItemId()){
-            case android.R.id.home:{ //toolbar의 back키 눌렀을 때 동작
-                finish();
-                return true;
-            }
-            case R.id.menu_edit: {
-                Intent intent = new Intent(CustomActivity.this, EditActivity.class);
-                startActivity(intent);
-            }
+        //switch문을
+        if(item.getItemId() == android.R.id.home){
+            //toolbar의 back키 눌렀을 때 동작
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }
 
-    //액션바 삽입
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_custom, menu);
-        return true;
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode != RESULT_OK) {
+            Toast.makeText(CustomActivity.this, "something wrong.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (requestCode == EDIT_ACTIVITY_REQUEST_CODE) {
+            mList = data.getStringArrayListExtra("list");
+            Log.d(TAG, "activity result from editAct.");
+
+            if(data.getIntExtra("save", 0) == 1) {
+                mAdapter = new CustomKeywordAdapter(mList);
+                mRecyclerView.setAdapter(mAdapter);
+            }
+        }
     }
 
 }

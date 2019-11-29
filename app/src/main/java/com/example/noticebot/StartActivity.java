@@ -30,15 +30,8 @@ public class StartActivity extends AppCompatActivity {
     }
 
     void checkNewLogin() {
-        //새로 로그인  하는 경우
-        if(1 == 2) { //로그인 확인하는 오퍼레이션 들어가야 함
-            Intent intent = new Intent(StartActivity.this, LoginActivity.class);
-            startActivity(intent);
-        }
-        //로그인 되어있는 경우
-        else {
-            Intent intent = new Intent(StartActivity.this, MainActivity.class);
-            startActivity(intent);
-        }
+        //TODO: sharedpreference 응용해서 로그인 상태 체크하는 구문이 추가되어야 한다.
+        Intent intent = new Intent(StartActivity.this, LoginActivity.class);
+        startActivity(intent);
     }
 }
