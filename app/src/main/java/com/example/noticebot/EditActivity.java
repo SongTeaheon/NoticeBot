@@ -100,23 +100,39 @@ public class EditActivity extends AppCompatActivity {
         //키워드 입력창
         keyword_typing = findViewById(R.id.keyword_typing);
 
-        //추가 버튼
+        //리사이클러뷰 아이템 형성
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),
                 mLinearLayoutManager.getOrientation());
         mRecyclerView.addItemDecoration(dividerItemDecoration);
 
+        //추가 버튼
         Button buttonInsert = findViewById(R.id.keyword_add);
         buttonInsert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //TODO 키워드 조건 체크하는 함수 만들어서 삽입
                 count++;
                 String str = keyword_typing.getText().toString();
                 mList.add(str);   //RecyclerView의 마지막 줄에 삽입
+                keyword_typing.setText(null); //기존에 타이핑한 문자는 삭제
                 Log.d(TAG, "plus btn mlistSize " + mList.size());
 
                 mAdapter.notifyDataSetChanged();
             }
         });
+
+        //삭제 버튼
+//        Button buttonDelete = findViewById(R.id.keyword_delete);
+//        buttonDelete.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                int pos =(int) v.getTag();
+//                mList.remove(pos);
+////                mList.remove(position);
+//            }
+//        });
+
+
 //        keyword_add.setClickable(false);
 //        keyword_add.addTextChangedListener(new TextWatcher() {
 //            @Override

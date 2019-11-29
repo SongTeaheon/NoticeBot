@@ -3,7 +3,10 @@ package com.example.noticebot;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -23,11 +26,6 @@ public class LoginActivity extends AppCompatActivity implements HttpCallback{
     EditText EditText_name, EditText_password;
     Button Button_Login, Button_Signup;
 
-    //테스트 계정들
-    String emailOK = "abc";
-    String passwordOK = "123";
-    String InputEmail = "";
-    String InputPassword = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +36,6 @@ public class LoginActivity extends AppCompatActivity implements HttpCallback{
         EditText_password = findViewById(R.id.EditText_password);
         Button_Login = findViewById(R.id.Button_Login);
         Button_Signup = findViewById(R.id.Button_Signup);
-
 
         //로그인 버튼
         Button_Login.setClickable(true);
@@ -52,6 +49,7 @@ public class LoginActivity extends AppCompatActivity implements HttpCallback{
                     AlertUtils.alertFunc(LoginActivity.this, "값 없음", "아이디와 비밀번호를 모두 넣어주세요");
                 }else {
                     login(name, password);
+                    SaveSharedPreference.setUserName(LoginActivity.this, EditText_name.getText().toString());
                 }
             }
         });
@@ -82,6 +80,7 @@ public class LoginActivity extends AppCompatActivity implements HttpCallback{
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
     }
 
     private void moveToMainActivity(){

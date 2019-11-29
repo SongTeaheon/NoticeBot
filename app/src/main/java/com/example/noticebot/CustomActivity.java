@@ -57,16 +57,11 @@ public class CustomActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // dummy data (리사이클러뷰 데이터 형성)
-        for (int i = 0; i < 20; i++) {
-            mList.add("키워드"+ i);
-        }
-
+        testCustomKeywords();
 
         // 리사이클러뷰에 SimpleTextAdapter 객체 지정.
         mAdapter = new CustomKeywordAdapter(mList);
         mRecyclerView.setAdapter(mAdapter);
-
-
 
         //편집 버튼
 //        Button_Edit.setClickable(true);
@@ -79,9 +74,7 @@ public class CustomActivity extends AppCompatActivity {
 //        });
 
         //액션버튼 메뉴 액션바에 집어 넣기
-
     }
-
 
     //액션버튼 메뉴 액션바에 집어 넣기
     @Override
@@ -100,8 +93,9 @@ public class CustomActivity extends AppCompatActivity {
 
         //편집 버튼
         if(item.getItemId() == R.id.menu_edit){
-            Intent intent = new Intent(CustomActivity.this, EditActivity.class);
-            startActivity(intent);
+                Intent intent = new Intent(CustomActivity.this, EditActivity.class);
+                intent.putStringArrayListExtra("list", mList);
+                startActivityForResult(intent, EDIT_ACTIVITY_REQUEST_CODE);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -124,6 +118,15 @@ public class CustomActivity extends AppCompatActivity {
                 mRecyclerView.setAdapter(mAdapter);
             }
         }
+    }
+
+    public void testCustomKeywords() {
+        //TODO 내림차순 정렬 알고리즘 만들어 적용시키기
+        mList.add("연구");
+        mList.add("공학");
+        mList.add("AI");
+        mList.add("연수");
+        mList.add("어학");
     }
 
 }

@@ -55,12 +55,28 @@ public class MainNoticesAdapter extends RecyclerView.Adapter<MainNoticesAdapter.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull NoticesViewHolder viewholder, int position) {
+    public void onBindViewHolder(@NonNull NoticesViewHolder viewholder, final int position) {
         DataNotices item = mList.get(position) ;
 
         viewholder.keyword.setText(item.getTitle());
         viewholder.title.setText(item.getLink()) ;
+        viewholder.title.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO 공지사항 제목을 누르면 외부 링크로 빠져나갈 수 있도록 해야함
+                Log.d(TAG,(position+1) + " 번 째 공지사항 링크가 선택되었음");
+            }
+        });
+//        viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Context context = v.getContext();
+//                Toast.makeText(context, position +"", Toast.LENGTH_LONG).show();
+//            }
+//        });
     }
+
+
 
     @Override
     public int getItemCount() {
@@ -75,5 +91,12 @@ public class MainNoticesAdapter extends RecyclerView.Adapter<MainNoticesAdapter.
         // 공제사항 제목 버튼 클릭
         void onTitleButtonClicked(int position);
 
+    }
+    public void onItemClicked(int position) {
+        Log.d(TAG,position + "번 아이템 클릭됨");
+    }
+
+    public void onTitleButtonClicked(int position) {
+        Log.d(TAG,position + "번 링크 클릭됨");
     }
 }

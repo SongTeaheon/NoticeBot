@@ -114,7 +114,13 @@ public class MainActivity extends AppCompatActivity {
                         new DialogInterface.OnClickListener() {
                             public void onClick(
                                     DialogInterface dialog, int id) {
-                                MainActivity.this.finish();
+                                //로그인 기록 삭제
+                                SaveSharedPreference.clearUserName(MainActivity.this);
+
+                                //바로 종료보다는 로그인 화면으로 돌아가는 게 더 좋지 않나..?
+                                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                                startActivity(intent);
+//                                MainActivity.this.finish();
                             }
                         })
                 .setNegativeButton("취소",

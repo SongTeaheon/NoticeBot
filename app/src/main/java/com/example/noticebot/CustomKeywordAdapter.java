@@ -19,8 +19,7 @@ public class CustomKeywordAdapter extends RecyclerView.Adapter<CustomKeywordAdap
 
         public KeywordCustomViewHolder(View view) {
             super(view);
-            this.keyword = (TextView) view.findViewById(R.id.keyword_item_notices);
-            this.title = (TextView) view.findViewById(R.id.title_item_notices);
+            this.keyword = (TextView) view.findViewById(R.id.keyword_custom);
         }
     }
 
@@ -31,7 +30,7 @@ public class CustomKeywordAdapter extends RecyclerView.Adapter<CustomKeywordAdap
     @Override
     public KeywordCustomViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View view = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.item_notices, viewGroup, false);
+                .inflate(R.layout.item_keyowrds_custom, viewGroup, false);
 
         KeywordCustomViewHolder viewHolder =  new KeywordCustomViewHolder(view);
 
