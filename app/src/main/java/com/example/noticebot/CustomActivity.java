@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -55,7 +56,7 @@ public class CustomActivity extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.recyclerview_keyword_custom);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // dummy data
+        // dummy data (리사이클러뷰 데이터 형성)
         for (int i = 0; i < 20; i++) {
             mList.add("키워드"+ i);
         }
@@ -81,23 +82,26 @@ public class CustomActivity extends AppCompatActivity {
 
     }
 
-    //리사이클러 뷰 아이템 형성
-    public void addItem(String title, String link) {
-        DataNotices item = new DataNotices();
 
-        item.setTitle(title);
-        item.setLink(link);
-
-        mList.add(item);
+    //액션버튼 메뉴 액션바에 집어 넣기
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_custom, menu);
+        return true;
     }
 
-    //뒤로가기 버튼 설정
+    //액션바 버튼 설정
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        //switch문을
+        //뒤로가기 버튼
         if(item.getItemId() == android.R.id.home){
-            //toolbar의 back키 눌렀을 때 동작
             finish();
+        }
+
+        //편집 버튼
+        if(item.getItemId() == R.id.menu_edit){
+            Intent intent = new Intent(CustomActivity.this, EditActivity.class);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }

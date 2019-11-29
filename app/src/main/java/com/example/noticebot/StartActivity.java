@@ -31,7 +31,12 @@ public class StartActivity extends AppCompatActivity {
 
     void checkNewLogin() {
         //TODO: sharedpreference 응용해서 로그인 상태 체크하는 구문이 추가되어야 한다.
-        Intent intent = new Intent(StartActivity.this, LoginActivity.class);
+
+        //실제로 상용화 할 때
+//        Intent intent = new Intent(StartActivity.this, LoginActivity.class);
+
+        //테스트 위해서 로그인 생략할 때
+        Intent intent = new Intent(StartActivity.this, MainActivity.class);
         startActivity(intent);
     }
 }

@@ -11,7 +11,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class CustomKeywordAdapter extends RecyclerView.Adapter<CustomKeywordAdapter.KeywordCustomViewHolder> {
-    private ArrayList<DataNotices> mList;
+    private ArrayList<String> mList;
 
     public class KeywordCustomViewHolder extends RecyclerView.ViewHolder {
         protected TextView keyword;
@@ -24,7 +24,7 @@ public class CustomKeywordAdapter extends RecyclerView.Adapter<CustomKeywordAdap
         }
     }
 
-    public CustomKeywordAdapter(ArrayList<DataNotices> list) {
+    public CustomKeywordAdapter(ArrayList<String> list) {
         this.mList = list;
     }
 
@@ -40,10 +40,9 @@ public class CustomKeywordAdapter extends RecyclerView.Adapter<CustomKeywordAdap
 
     @Override
     public void onBindViewHolder(@NonNull CustomKeywordAdapter.KeywordCustomViewHolder viewholder, int position) {
-        DataNotices item = mList.get(position) ;
+        String item = mList.get(position) ;
 
-        viewholder.keyword.setText(item.getTitle());
-        viewholder.title.setText(item.getLink()) ;
+        viewholder.keyword.setText(item);
     }
 
     @Override
