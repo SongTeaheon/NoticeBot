@@ -89,7 +89,18 @@ public class SignupActivity extends AppCompatActivity implements HttpCallback{
     @Override
     public void callback(JSONObject resultJson) {
         Log.d(TAG, "callback is called");
-        moveToMainActivity();
+        try {
+            String msg = resultJson.getString("message");
+
+            if(msg.equals("record inserted.")){
+                moveToMainActivity();
+            }else{
+                AlertUtils.alertFunc(SignupActivity.this, "로그인 실패", "같은 id가 이미 있습니다");
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void moveToMainActivity(){
