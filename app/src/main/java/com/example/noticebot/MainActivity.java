@@ -10,11 +10,11 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import android.os.Bundle;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView mRecyclerView = null;
     ArrayList<DataNotices> mList = new ArrayList<DataNotices>();
     MainNoticesAdapter mAdapter;
+    private final String TAG = "TAGLoginActivity";
 
     //화면 레이아웃
     @Override
@@ -43,20 +44,18 @@ public class MainActivity extends AppCompatActivity {
         MainNoticesAdapter adapter = new MainNoticesAdapter(mList);
         recyclerView.setAdapter(adapter);
 
-        // 리사이클러뷰에 표시할 데이터 리스트 생성. (for 구문)
-        for (int i = 0; i < 20; i++) {
-            addItem("제목" + (i + 1), "urls" + (i + 1));
+        // test로 임의의 리스트 형성
+        testNoticesList();
 
-        }
         adapter.notifyDataSetChanged();
     }
 
     //리사이클러 뷰 아이템 형성
-    public void addItem(String title, String link) {
+    public void addItem(String keyword, String title) {
         DataNotices item = new DataNotices();
 
-        item.setTitle(title);
-        item.setLink(link);
+        item.setTitle(keyword);
+        item.setLink(title);
 
         mList.add(item);
     }
@@ -64,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
     //액션버튼 메뉴 액션바에 집어 넣기
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menubar, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -161,4 +160,32 @@ public class MainActivity extends AppCompatActivity {
         alertExit();
     }
 
+
+    public void testNoticesList() {
+//        for (int i = 0; i < 20; i++) {
+//            addItem("키워드" + (i + 1), "공지사항 제목" + (i + 1));
+//        }
+        addItem("연구","[신청가능연구실목록] 2019-겨울 공학연구인턴십 참여 신청 안내");
+        addItem("공학","[학생미래지원센터] WDB공학 채용설명회 개최");
+        addItem("공학","[공학교육혁신센터] 2019 공학페스티벌 \"학생성과 발표대회\" 신청 안내");
+        addItem("연구","2019년 서울시립대학교 연구윤리 특강 안내");
+        addItem("공학","[공학교육혁신센터] 2019 공학페스티벌 「공학밴드」 참가팀 모집");
+        addItem("AI","[공학교육혁신센터] 2019 공학페스티벌 \"AI 사물인식해커톤\" 참가자 모집 안내");
+        addItem("연구","2019년 대학혁신지원사업 [우수 학생 연구인력 지원 확대] 프로그램 참가자 모집(1차)(수정)");
+        addItem("어학","서울시립대학교 한국어학당 직원 인사 관리 규정 제정 공고");
+        addItem("연구","서울연구원 시민 아이디어 공모전 안내");
+        addItem("연수","2019년 하반기 한미대학생연수(WEST) 대학설명회 개최 안내");
+        addItem("AI","2019 인텔 AI 드론 경진대회");
+        addItem("어학","2019년도 봄학기 서울시립대학교 글로벌외국어교육센터 교내어학프로그램 장학프로그램 안내");
+        addItem("연수","[삼육대학교] 2019년 파란사다리 사업 - 해외연수프로그램 참가자 선발");
+
+    }
+
+    public void onItemClicked(int position) {
+        Log.d(TAG,position + "번 아이템 클릭됨");
+    }
+
+    public void onTitleButtonClicked(int position) {
+        Log.d(TAG,position + "번 링크 클릭됨");
+    }
 }

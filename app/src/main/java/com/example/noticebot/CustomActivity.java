@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -23,14 +24,10 @@ public class CustomActivity extends AppCompatActivity {
     ArrayList<DataNotices> mList = new ArrayList<DataNotices>();
     MainNoticesAdapter mAdapter;
 
-    Button Button_Edit;
-
     @Override
     protected void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
         setContentView(R.layout.activity_custom);
-
-        Button_Edit  = findViewById(R.id.Button_Edit);
 
         //메뉴 액션바
         getSupportActionBar().setTitle("사용자 설정");
@@ -66,14 +63,17 @@ public class CustomActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
 
         //편집 버튼
-        Button_Edit.setClickable(true);
-        Button_Edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(CustomActivity.this, EditActivity.class);
-                startActivity(intent);
-            }
-        });
+//        Button_Edit.setClickable(true);
+//        Button_Edit.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(CustomActivity.this, EditActivity.class);
+//                startActivity(intent);
+//            }
+//        });
+
+        //액션버튼 메뉴 액션바에 집어 넣기
+
     }
 
     //리사이클러 뷰 아이템 형성
@@ -89,13 +89,25 @@ public class CustomActivity extends AppCompatActivity {
     //뒤로가기 버튼 설정
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
         switch (item.getItemId()){
             case android.R.id.home:{ //toolbar의 back키 눌렀을 때 동작
                 finish();
                 return true;
             }
+            case R.id.menu_edit: {
+                Intent intent = new Intent(CustomActivity.this, EditActivity.class);
+                startActivity(intent);
+            }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    //액션바 삽입
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_custom, menu);
+        return true;
     }
 
 }

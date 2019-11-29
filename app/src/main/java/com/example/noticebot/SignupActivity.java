@@ -11,26 +11,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.regex.Pattern;
-
 public class SignupActivity extends AppCompatActivity implements HttpCallback{
     private final String TAG = "TAGSignupActivity";
     EditText EditText_NEWemail, EditText_NEWpassword, EditText_NEWpasswordcheck;
     Button Button_Signup;
-
-    //아이디 패턴: 숫자만으로 10자
-    public static final String idPattern = "^[0-9]{10}+$";
-    //비밀번호 패턴: 영문, 숫자, 특수문자 조합으로 6~20자
-    public static final String pwPattern = "^(?=.*\\d)(?=.*[~`!@#$%\\^&*()-])(?=.*[a-zA-Z]).{6,20}$";
-
-
 
     //임시 ID체크
     String[] emailCheck = {"ijk", "abc", "xyz"};
@@ -46,16 +36,10 @@ public class SignupActivity extends AppCompatActivity implements HttpCallback{
         EditText_NEWpasswordcheck = findViewById(R.id.EditText_NEWpasswordcheck);
         Button_Signup = findViewById(R.id.Button_SignupConfirmed);
 
-
-
         // 1. 값을 가져온다
         // 2. 클릭을 감지한다
         // 3. 1번의 값을 다음 액티비티로 넘긴다.
-
-        //아이디 비밀번호 포맷 체크
-        Button_Signup.setEnabled(false);
-        signupFormatCheck(Button_Signup, EditText_NEWemail, EditText_NEWpassword);
-
+        Button_Signup.setClickable(true);
         Button_Signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,16 +47,12 @@ public class SignupActivity extends AppCompatActivity implements HttpCallback{
                 String newPassword = EditText_NEWpassword.getText().toString();
                 String newPasswordCheck = EditText_NEWpasswordcheck.getText().toString();
 
-//                if(signupFormatCheck(Button_Signup, EditText_NEWemail, EditText_NEWpassword)){
-//                    Log.d(TAG, "정보 수정됨");
-//                }
                 //비밀번호가 불일치 할 경우
                 if(!newPassword.equals(newPasswordCheck)) {
                     alertInvalidPasswordCheck();
                 }else{
                     signUp(newEmail, newPassword);
                 }
-
 
             }
         });
@@ -109,79 +89,13 @@ public class SignupActivity extends AppCompatActivity implements HttpCallback{
     @Override
     public void callback(JSONObject resultJson) {
         Log.d(TAG, "callback is called");
-        moveToLoginActivity();
+        moveToMainActivity();
     }
 
-    private void moveToLoginActivity(){
-        alertSignupSucceed();
-        Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
+    private void moveToMainActivity(){
+        Intent intent = new Intent(SignupActivity.this, MainActivity.class);
         startActivity(intent);
     }
-
-    private void alertSignupSucceed() {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SignupActivity.this);
-        alertDialogBuilder.setTitle("회원가입 완료");
-        alertDialogBuilder
-                .setMessage("생성된 아이디로 로그인 해주시기 바랍니다.")
-                .setPositiveButton("확인", new DialogInterface.OnClickListener(){
-                    public void onClick(DialogInterface dialog, int whichButton){
-                        dialog.cancel();
-                    }
-                });
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
-    }
-
-    // ID, PW 포맷에 대한 체크
-    private void signupFormatCheck(final Button button_Signup, final EditText newEmail, final EditText newPassword) {
-        Log.d(TAG,"signupFormatCheck 실행됨");
-
-        newEmail.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (  !Pattern.matches(idPattern, s.toString()) ) {
-                    newEmail.setError("ID는 10자리 학번을 이용해서 가입해주세요.");
-                }
-                else {
-                    button_Signup.setEnabled(true);
-                }
-            }
-        });
-
-        newPassword.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if ( !Pattern.matches(pwPattern, s.toString()) ) {
-                    newPassword.setError("비밀번호는 6자 이상, 20자 이하의 영문, 숫자, 특수문자의 조합이어야 합니다.");
-                }
-                else {
-                    button_Signup.setEnabled(true);
-                }
-            }
-        });
-
-    }
-
 }
 
 

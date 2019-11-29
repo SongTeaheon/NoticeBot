@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+
 public class LoginActivity extends AppCompatActivity implements HttpCallback{
     private final String TAG = "TAGLoginActivity";
 
@@ -94,9 +95,8 @@ public class LoginActivity extends AppCompatActivity implements HttpCallback{
 
     @Override
     public void callback(JSONObject resultJson) {
-        Log.d(TAG, "callback is called");
+        Log.d(TAG, "login callback called");
         moveToMainActivity();
-
 
         //TODO: resultJson에 따라서 예외처리!!
 //        if(isLoginSuccess()) {

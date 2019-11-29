@@ -14,13 +14,13 @@ public class CustomKeywordAdapter extends RecyclerView.Adapter<CustomKeywordAdap
     private ArrayList<DataNotices> mList;
 
     public class KeywordCustomViewHolder extends RecyclerView.ViewHolder {
+        protected TextView keyword;
         protected TextView title;
-        protected TextView link;
 
         public KeywordCustomViewHolder(View view) {
             super(view);
-            this.title = (TextView) view.findViewById(R.id.title);
-            this.link = (TextView) view.findViewById(R.id.link);
+            this.keyword = (TextView) view.findViewById(R.id.keyword_item_notices);
+            this.title = (TextView) view.findViewById(R.id.title_item_notices);
         }
     }
 
@@ -42,8 +42,8 @@ public class CustomKeywordAdapter extends RecyclerView.Adapter<CustomKeywordAdap
     public void onBindViewHolder(@NonNull CustomKeywordAdapter.KeywordCustomViewHolder viewholder, int position) {
         DataNotices item = mList.get(position) ;
 
-        viewholder.title.setText(item.getTitle());
-        viewholder.link.setText(item.getLink()) ;
+        viewholder.keyword.setText(item.getTitle());
+        viewholder.title.setText(item.getLink()) ;
     }
 
     @Override
