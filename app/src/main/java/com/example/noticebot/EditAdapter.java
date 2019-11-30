@@ -14,6 +14,8 @@ import java.util.ArrayList;
 
 public class EditAdapter extends RecyclerView.Adapter<EditAdapter.KeywordEditViewHolder> {
     private ArrayList<String> mList;
+    private ArrayList<String> mDeletedList;
+
 
     public class KeywordEditViewHolder extends RecyclerView.ViewHolder {
         protected TextView keyword_edit;
@@ -26,8 +28,10 @@ public class EditAdapter extends RecyclerView.Adapter<EditAdapter.KeywordEditVie
         }
     }
 
-    public EditAdapter(ArrayList<String> list) {
+    public EditAdapter(ArrayList<String> list, ArrayList<String> deletedList) {
+
         this.mList = list;
+        this.mDeletedList = deletedList;
     }
 
     @Override
@@ -49,6 +53,7 @@ public class EditAdapter extends RecyclerView.Adapter<EditAdapter.KeywordEditVie
             public void onClick(View v) {
                 //리스트 삭제
 //                mList.remove(position);
+                mDeletedList.add(mList.get(position));
                 mList.remove(viewholder.getAdapterPosition());
                 notifyItemRemoved(viewholder.getAdapterPosition());
                 notifyItemRangeChanged(viewholder.getAdapterPosition(), mList.size());

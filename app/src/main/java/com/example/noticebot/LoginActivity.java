@@ -95,23 +95,17 @@ public class LoginActivity extends AppCompatActivity implements HttpCallback{
     @Override
     public void callback(JSONObject resultJson) {
         Log.d(TAG, "login callback called");
-        moveToMainActivity();
 
-        //TODO: resultJson에 따라서 예외처리!!
-//        if(isLoginSuccess()) {
-//        }else {//아이디 비밀번호가 존재하지 않을 경우
-//            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoginActivity.this);
-//            alertDialogBuilder.setTitle("회원정보 불일치");
-//            alertDialogBuilder
-//                    .setMessage("아이디 혹은 비밀번호가 일치하지 않습니다.")
-//                    .setPositiveButton("확인", new DialogInterface.OnClickListener(){
-//                        public void onClick(DialogInterface dialog, int whichButton){
-//                            dialog.cancel();
-//                        }
-//                    });
-//            AlertDialog alertDialog = alertDialogBuilder.create();
-//            alertDialog.show();
-//        }
+        try {
+            String msg = resultJson.getString("message");
+            if(msg.equals("login success")){
+                moveToMainActivity();
+            }else{
+                AlertUtils.alertFunc(LoginActivity.this, "로그인 실패", "id와 pw를 확인해주세요");
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 }
