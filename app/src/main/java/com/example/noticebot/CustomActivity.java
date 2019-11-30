@@ -40,15 +40,14 @@ public class CustomActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //토글 스위치
-        final ToggleButton function_switch = this
+        final ToggleButton toggleFunction = this
                 .findViewById(R.id.fucntion_switch);
-        function_switch.setOnClickListener(new View.OnClickListener(){
+
+        //화면 진입시
+        toggleView(toggleFunction);
+        toggleFunction.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
-                if (function_switch.isChecked()) {
-                    function_switch.setTextColor(Color.BLUE);
-                } else {
-                    function_switch.setTextColor(Color.GRAY);
-                }
+                SaveSharedPreference.setFunctionSwitch(CustomActivity.this, toggleState(toggleFunction));
             }
         });
 
@@ -63,17 +62,6 @@ public class CustomActivity extends AppCompatActivity {
         mAdapter = new CustomKeywordAdapter(mList);
         mRecyclerView.setAdapter(mAdapter);
 
-        //편집 버튼
-//        Button_Edit.setClickable(true);
-//        Button_Edit.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(CustomActivity.this, EditActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-
-        //액션버튼 메뉴 액션바에 집어 넣기
     }
 
     //액션버튼 메뉴 액션바에 집어 넣기
@@ -122,6 +110,40 @@ public class CustomActivity extends AppCompatActivity {
         }
     }
 
+    public void toggleOn(ToggleButton toggleButton) {
+        toggleButton.setTextColor(Color.BLUE);
+        toggleButton.setChecked(true);
+    }
+
+    public void toggleOff(ToggleButton toggleButton) {
+        toggleButton.setTextColor(Color.GRAY);
+        toggleButton.setChecked(false);
+    }
+
+    public void toggleView(ToggleButton toggleButton) {
+        if(SaveSharedPreference.getFunctionSwtich(CustomActivity.this) == false) {
+            toggleOff(toggleButton);
+        } else {
+            toggleOn(toggleButton);
+        }
+    }
+
+
+    public boolean toggleState(ToggleButton toggleButton){
+        boolean state;
+        if (toggleButton.isChecked()) {
+            toggleButton.setTextColor(Color.BLUE);
+            state = true;
+        } else {
+            toggleButton.setTextColor(Color.GRAY);
+            state = false;
+        }
+        return state;
+    }
+
+
+
+
     public void testCustomKeywords() {
         //TODO 내림차순 정렬 알고리즘 만들어 적용시키기
         mList.add("연구");
@@ -129,6 +151,21 @@ public class CustomActivity extends AppCompatActivity {
         mList.add("AI");
         mList.add("연수");
         mList.add("어학");
+        mList.add("가1");
+        mList.add("가2");
+        mList.add("가3");
+        mList.add("가4");
+        mList.add("가5");
+        mList.add("가6");
+        mList.add("가7");
+        mList.add("가8");
+        mList.add("가9");
+        mList.add("가10");
+        mList.add("가11");
+        mList.add("가12");
+        mList.add("가13");
+        mList.add("가14");
+
     }
 
 }
