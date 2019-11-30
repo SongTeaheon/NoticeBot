@@ -44,6 +44,10 @@ public class EditActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         mList = intent.getStringArrayListExtra("list");
+        if(mList == null){
+            Log.d(TAG, "mList is null, nothing come from CustomActivity");
+            mList = new ArrayList<>();
+        }
         //메뉴 액션바
         getSupportActionBar().setTitle("키워드 관리");
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xFF339999));

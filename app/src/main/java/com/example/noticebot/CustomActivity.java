@@ -93,9 +93,10 @@ public class CustomActivity extends AppCompatActivity {
 
         //편집 버튼
         if(item.getItemId() == R.id.menu_edit){
-                Intent intent = new Intent(CustomActivity.this, EditActivity.class);
-                intent.putStringArrayListExtra("list", mList);
-                startActivityForResult(intent, EDIT_ACTIVITY_REQUEST_CODE);
+            Log.d(TAG, "menu_edit clicked");
+            Intent intent = new Intent(CustomActivity.this, EditActivity.class);
+            intent.putStringArrayListExtra("list", mList);
+            startActivityForResult(intent, EDIT_ACTIVITY_REQUEST_CODE);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -110,10 +111,11 @@ public class CustomActivity extends AppCompatActivity {
         }
 
         if (requestCode == EDIT_ACTIVITY_REQUEST_CODE) {
-            mList = data.getStringArrayListExtra("list");
             Log.d(TAG, "activity result from editAct.");
 
             if(data.getIntExtra("save", 0) == 1) {
+                mList = data.getStringArrayListExtra("list");
+
                 mAdapter = new CustomKeywordAdapter(mList);
                 mRecyclerView.setAdapter(mAdapter);
             }
