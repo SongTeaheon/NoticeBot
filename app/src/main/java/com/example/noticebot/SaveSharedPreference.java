@@ -60,7 +60,7 @@ public class SaveSharedPreference {
         return getSharedPreferences(ctx).getBoolean(BOARD2_ON, false);
     }
 
-    //
+    //어플 기능 On/Off 스위치
     public static void setFunctionSwitch(Context ctx, boolean isWorking) {
         SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
         editor.putBoolean(APP_FUNCTION, isWorking);

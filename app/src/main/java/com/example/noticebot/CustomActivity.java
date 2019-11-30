@@ -19,6 +19,7 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class CustomActivity extends AppCompatActivity {
 
@@ -153,19 +154,19 @@ public class CustomActivity extends AppCompatActivity {
         mList.add("어학");
         mList.add("가1");
         mList.add("가2");
-        mList.add("가3");
+        mList.add("나3");
         mList.add("가4");
         mList.add("가5");
-        mList.add("가6");
+        mList.add("다6");
         mList.add("가7");
         mList.add("가8");
-        mList.add("가9");
-        mList.add("가10");
+        mList.add("라9");
+        mList.add("라10");
         mList.add("가11");
-        mList.add("가12");
-        mList.add("가13");
-        mList.add("가14");
-
+        mList.add("a12");
+        mList.add("b13");
+        mList.add("x14");
+        Collections.sort(mList);
     }
 
 }

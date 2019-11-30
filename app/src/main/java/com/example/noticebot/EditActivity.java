@@ -25,6 +25,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 
 public class EditActivity extends AppCompatActivity implements HttpCallback{
@@ -143,6 +145,7 @@ public class EditActivity extends AppCompatActivity implements HttpCallback{
                 } else {
                     Log.d(TAG, "키워드 추가!");
                     mList.add(str);
+                    Collections.sort(mList);
                     addedList.add(str);
                     keyword_typing.setText(null); //기존에 타이핑한 문자는 삭제
                     mAdapter.notifyDataSetChanged();
