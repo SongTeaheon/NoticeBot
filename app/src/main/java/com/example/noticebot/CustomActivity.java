@@ -25,14 +25,20 @@ public class CustomActivity extends AppCompatActivity {
     private final String TAG = "TAGCustomActivity";
     private final int EDIT_ACTIVITY_REQUEST_CODE = 1001;
     RecyclerView mRecyclerView = null;
-    ArrayList<String> mList = new ArrayList<>();
+    ArrayList<String> mList;
     CustomKeywordAdapter mAdapter;
+    DBHelper dbHelper;
 
 
     @Override
     protected void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
         setContentView(R.layout.activity_custom);
+
+        if(dbHelper == null){
+            Log.d(TAG, "new DBHelper ");
+            dbHelper = new DBHelper(this, "APP_DB", null, 1);
+        }
 
         //메뉴 액션바
         getSupportActionBar().setTitle("사용자 설정");
@@ -57,7 +63,10 @@ public class CustomActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // dummy data (리사이클러뷰 데이터 형성)
-        testCustomKeywords();
+        //TODO: 테스트용 코드. 서버 통신으로 키워드를 받아오면 없앨 것!
+        mList = dbHelper.getAllData();
+        if(mList.size() == 0)
+            testCustomKeywords();
 
         // 리사이클러뷰에 SimpleTextAdapter 객체 지정.
         mAdapter = new CustomKeywordAdapter(mList);
@@ -115,7 +124,7 @@ public class CustomActivity extends AppCompatActivity {
 
             if(data.getIntExtra("save", 0) == 1) {
                 mList = data.getStringArrayListExtra("list");
-
+                updateDB();
                 mAdapter = new CustomKeywordAdapter(mList);
                 mRecyclerView.setAdapter(mAdapter);
             }
@@ -123,12 +132,19 @@ public class CustomActivity extends AppCompatActivity {
     }
 
     public void testCustomKeywords() {
-        //TODO 내림차순 정렬 알고리즘 만들어 적용시키기
+        //TODO: 내림차순 정렬 알고리즘 만들어 적용시키기
         mList.add("연구");
         mList.add("공학");
         mList.add("AI");
         mList.add("연수");
         mList.add("어학");
+        updateDB();
     }
-
+    private void updateDB(){
+        dbHelper.deleteAll();
+        for(int i = 0; i < mList.size(); i++){
+            dbHelper.addKeyword(mList.get(i));
+        }
+        dbHelper.getAllData(); //TODO: 테스트용 지우기.
+    }
 }

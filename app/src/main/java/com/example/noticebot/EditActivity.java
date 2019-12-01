@@ -28,6 +28,7 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 
 public class EditActivity extends AppCompatActivity implements HttpCallback{
@@ -125,7 +126,7 @@ public class EditActivity extends AppCompatActivity implements HttpCallback{
                 str = str.trim();
 
                 //특수 문자 확인
-                if(!str.matches("[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝]*")){
+                if(!str.matches("[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝]*") || str.length() == 0){
                     Log.d(TAG, "특수문자 포함");
                     Toast.makeText(EditActivity.this, "특수문자가 포함되어 있습니다.", Toast.LENGTH_LONG).show();
                 }else if(mList.contains(str)){
@@ -273,20 +274,22 @@ public class EditActivity extends AppCompatActivity implements HttpCallback{
 
     //deletedList에 있는 Item이 mList에 있는 경우 확인
     private void checkDeletedList(){
-        for(int i = 0; i < deletedList.size(); i++){
-            if(mList.contains(deletedList.get(i))){
-                Log.d(TAG, "deleted item is still in mList. item : " + deletedList.get(i));
-                deletedList.remove(i);
+        for(Iterator<String> itr = deletedList.iterator(); itr.hasNext();){
+            String data = itr.next();
+            if(mList.contains(data)){
+                Log.d(TAG, "deleted item is still in mList. item : " + data);
+                itr.remove();
             }
         }
     }
 
     //AddedList에 있는 Item이 mList에 없는 경우 확인.
     private void checkAddedList(){
-        for(int i = 0; i < addedList.size(); i++){
-            if(!mList.contains(addedList.get(i))){
-                Log.d(TAG, "added item is not in mList. item : " + addedList.get(i));
-                addedList.remove(i);
+        for(Iterator<String> itr = addedList.iterator(); itr.hasNext();){
+            String data = itr.next();
+            if(!mList.contains(data)){
+                Log.d(TAG, "added item is not in mList. item : " + data);
+                itr.remove();
             }
         }
     }
@@ -294,8 +297,8 @@ public class EditActivity extends AppCompatActivity implements HttpCallback{
 //    public void addItem(String title, String link) {
 //        DataNotices item = new DataNotices();
 //
-//        item.setTitle(title);
-//        item.setLink(link);
+//        item.setLink(title);
+//        item.setTitle(link);
 //
 //        mList.add(item);
 //    }

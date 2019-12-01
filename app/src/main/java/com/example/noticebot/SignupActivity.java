@@ -47,29 +47,18 @@ public class SignupActivity extends AppCompatActivity implements HttpCallback{
                 String newPassword = EditText_NEWpassword.getText().toString();
                 String newPasswordCheck = EditText_NEWpasswordcheck.getText().toString();
 
-                //비밀번호가 불일치 할 경우
-                if(!newPassword.equals(newPasswordCheck)) {
-                    alertInvalidPasswordCheck();
+                if(!newEmail.matches("[0-9]*") || newEmail.length() != 10) {
+                    AlertUtils.alertFunc(SignupActivity.this, "아이디 형식 불일치", "학번(숫자 10자)로 가입하시기 바랍니다.");
+                }else if(newPassword.length() == 0){
+                    AlertUtils.alertFunc(SignupActivity.this, "비밀번호 불일치", "비밀번호를 입력하시기 바랍니다.");
+                }else if(!newPassword.equals(newPasswordCheck)) {//비밀번호 불일치
+                    AlertUtils.alertFunc(SignupActivity.this, "비밀번호 불일치", "비밀번호를 일치시켜주시기 바랍니다.");
                 }else{
                     signUp(newEmail, newPassword);
                 }
 
             }
         });
-    }
-
-    private void alertInvalidPasswordCheck(){
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SignupActivity.this);
-        alertDialogBuilder.setTitle("비밀번호 불일치");
-        alertDialogBuilder
-                .setMessage("비밀번호를 일치시켜주시기 바랍니다.")
-                .setPositiveButton("확인", new DialogInterface.OnClickListener(){
-                    public void onClick(DialogInterface dialog, int whichButton){
-                        dialog.cancel();
-                    }
-                });
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
     }
 
     private void signUp(String name, String password){
@@ -90,6 +79,16 @@ public class SignupActivity extends AppCompatActivity implements HttpCallback{
     public void callback(JSONObject resultJson) {
         Log.d(TAG, "callback is called");
         moveToMainActivity();
+        try {
+            String msg = resultJson.getString("message");
+            if(msg.equals("record inserted.")){
+                moveToMainActivity();
+            }else if(msg.equals("name already exist")){
+                AlertUtils.alertFunc(SignupActivity.this, "회원가입 실패", "해당 id가 이미 존재합니다.");
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void moveToMainActivity(){
@@ -109,7 +108,7 @@ public class SignupActivity extends AppCompatActivity implements HttpCallback{
 ////아이디가 중복될 경우
 //                else if(emailCheck(NEWemail)) {
 //                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SignupActivity.this);
-//                        alertDialogBuilder.setTitle("아이디 중복됨");
+//                        alertDialogBuilder.setLink("아이디 중복됨");
 //                        alertDialogBuilder
 //                        .setMessage("다른 아이디를 사용하시기 바랍니다.")
 //                        .setPositiveButton("확인", new DialogInterface.OnClickListener(){
@@ -125,7 +124,7 @@ public class SignupActivity extends AppCompatActivity implements HttpCallback{
 //
 //        //개선 해야할점: 알림 창에서 얼렁뚱땅 넘어가는 것을 개선해야 함
 //        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SignupActivity.this);
-//        alertDialogBuilder.setTitle("회원가입 완료");
+//        alertDialogBuilder.setLink("회원가입 완료");
 //        alertDialogBuilder
 //        .setMessage("생성한 아이디로 로그인하십시오.")
 //        .setPositiveButton("확인", new DialogInterface.OnClickListener(){

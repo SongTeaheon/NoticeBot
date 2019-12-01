@@ -3,6 +3,9 @@ package com.example.noticebot;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +17,7 @@ import java.util.ArrayList;
 public class MainNoticesAdapter extends RecyclerView.Adapter<MainNoticesAdapter.NoticesViewHolder> {
     private ArrayList<DataNotices> mList;
     private final String TAG = "TAGLoginActivity";
+    private Context mContext;
 
     public class NoticesViewHolder extends RecyclerView.ViewHolder {
         protected TextView keyword;
@@ -21,8 +25,8 @@ public class MainNoticesAdapter extends RecyclerView.Adapter<MainNoticesAdapter.
 
         public NoticesViewHolder(View view) {
             super(view);
-            this.keyword = (TextView) view.findViewById(R.id.keyword_item_notices);
-            this.title = (TextView) view.findViewById(R.id.title_item_notices);
+            this.keyword = view.findViewById(R.id.keyword_item_notices);
+            this.title = view.findViewById(R.id.title_item_notices);
 
             // 공지사항 제목 클릭 처리
             view.setOnClickListener(new View.OnClickListener() {
@@ -40,8 +44,9 @@ public class MainNoticesAdapter extends RecyclerView.Adapter<MainNoticesAdapter.
         }
     }
 
-    public MainNoticesAdapter(ArrayList<DataNotices> list) {
+    public MainNoticesAdapter(Context context, ArrayList<DataNotices> list) {
         this.mList = list;
+        this.mContext = context;
     }
 
     @Override
@@ -56,15 +61,16 @@ public class MainNoticesAdapter extends RecyclerView.Adapter<MainNoticesAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull NoticesViewHolder viewholder, final int position) {
-        DataNotices item = mList.get(position) ;
+        final DataNotices item = mList.get(position) ;
 
-        viewholder.keyword.setText(item.getTitle());
-        viewholder.title.setText(item.getLink()) ;
+        viewholder.keyword.setText(item.getKeyword());
+        viewholder.title.setText(item.getTitle()) ;
         viewholder.title.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO 공지사항 제목을 누르면 외부 링크로 빠져나갈 수 있도록 해야함
                 Log.d(TAG,(position+1) + " 번 째 공지사항 링크가 선택되었음");
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(item.getLink()));
+                mContext.startActivity(intent);
             }
         });
 //        viewHolder.mView.setOnClickListener(new View.OnClickListener() {

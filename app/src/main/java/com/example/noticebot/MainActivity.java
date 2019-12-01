@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     RecyclerView mRecyclerView = null;
-    ArrayList<DataNotices> mList = new ArrayList<DataNotices>();
+    ArrayList<DataNotices> mList = new ArrayList<>();
     MainNoticesAdapter mAdapter;
     private final String TAG = "TAGLoginActivity";
 
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // 리사이클러뷰에 SimpleTextAdapter 객체 지정.
-        MainNoticesAdapter adapter = new MainNoticesAdapter(mList);
+        MainNoticesAdapter adapter = new MainNoticesAdapter(this, mList);
         recyclerView.setAdapter(adapter);
 
         // test로 임의의 리스트 형성
@@ -54,8 +54,9 @@ public class MainActivity extends AppCompatActivity {
     public void addItem(String keyword, String title) {
         DataNotices item = new DataNotices();
 
-        item.setTitle(keyword);
-        item.setLink(title);
+        item.setKeyword(keyword);
+        item.setTitle(title);
+        item.setLink("https://uos.ac.kr/korNotice/view.do?list_id=FA1&seq=21688&sort=1&epTicket=LOG");
 
         mList.add(item);
     }
@@ -70,27 +71,18 @@ public class MainActivity extends AppCompatActivity {
     //액션버튼을 클릭했을때의 동작
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        //설정 버튼 눌렀을 때
-        if (id == R.id.menu_setting) {
-            Intent intent = new Intent(MainActivity.this, CustomActivity.class);
-            startActivity(intent);
-//            Toast.makeText(this, "설정 클릭", Toast.LENGTH_SHORT).show();
-//            return true;
-        }
-
-        //로그아웃 버튼 눌렀을 때
-        if (id == R.id.menu_logout) {
-            alertLogout();
-//            Toast.makeText(this, "로그아웃 클릭", Toast.LENGTH_SHORT).show();
-//            return true;
-        }
-
         //나가기 버튼 눌렀을 때
         switch (item.getItemId()){
-            case android.R.id.home:{
+            case android.R.id.home:
                 alertExit();
-            }
+                break;
+            case R.id.menu_setting:
+                Intent intent = new Intent(MainActivity.this, CustomActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.menu_logout:
+                alertLogout();
+                break;
         }
 
         return super.onOptionsItemSelected(item);
