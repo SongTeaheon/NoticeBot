@@ -100,13 +100,6 @@ public class SignupActivity extends AppCompatActivity implements HttpCallback{
 }
 
 
-
-
-
-
-
-
-//TODO: 해당 코드는 callback함수에서 구현해야함.
 ////아이디가 중복될 경우
 //                else if(emailCheck(NEWemail)) {
 //                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SignupActivity.this);
