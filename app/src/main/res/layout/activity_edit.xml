@@ -45,6 +45,7 @@
         app:layout_constraintRight_toLeftOf="@id/keyword_add"
         app:layout_constraintTop_toBottomOf="@id/Toggle_Board1"
         app:layout_constraintBottom_toTopOf="@id/recyclerview_keyword_edit"
+        android:maxLength="20"
         />
 
     <Button

@@ -3,6 +3,7 @@ package com.example.noticebot;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,6 +54,7 @@ public class EditAdapter extends RecyclerView.Adapter<EditAdapter.KeywordEditVie
             public void onClick(View v) {
                 //리스트 삭제
 //                mList.remove(position);
+                Log.d("TAGEditAdpater", "position : " + position);
                 mDeletedList.add(mList.get(position));
                 mList.remove(viewholder.getAdapterPosition());
                 notifyItemRemoved(viewholder.getAdapterPosition());

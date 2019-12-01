@@ -11,8 +11,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,8 +24,9 @@ import android.widget.ToggleButton;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 
 
@@ -78,34 +77,37 @@ public class EditActivity extends AppCompatActivity implements HttpCallback{
 //        mArrayList.add(data);
 //        mArrayList.add(data);
 
-
         mAdapter = new EditAdapter(mList, deletedList);//지워진 데이터를 알아오기 위해서!!
         mRecyclerView.setAdapter(mAdapter);
 
 
-        //토글 스위치 (board 1)
+        //토글 스위치 (board 1) : 일반
         final ToggleButton toggleBoard1 = this
                 .findViewById(R.id.Toggle_Board1);
+
+        //화면 진입시
+        toggleView(toggleBoard1, 1);
+
+        //클릭시
         toggleBoard1.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
-                if (toggleBoard1.isChecked()) {
-                    toggleBoard1.setTextColor(Color.BLUE);
-                } else {
-                    toggleBoard1.setTextColor(Color.GRAY);
-                }
+                SaveSharedPreference.setBoardSwitch1(EditActivity.this, toggleState(toggleBoard1));
+                toastBoardNull();
             }
         });
 
-        //토글 스위치 (board 2)
+        //토글 스위치 (board 2) : 학사
         final ToggleButton toggleBoard2 = this
                 .findViewById(R.id.Toggle_Board2);
+
+        //화면 진입시
+        toggleView(toggleBoard2, 2);
+
+        //클릭시
         toggleBoard2.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
-                if (toggleBoard2.isChecked()) {
-                    toggleBoard2.setTextColor(Color.BLUE);
-                } else {
-                    toggleBoard2.setTextColor(Color.GRAY);
-                }
+                SaveSharedPreference.setBoardSwitch2(EditActivity.this, toggleState(toggleBoard2));
+                toastBoardNull();
             }
         });
 
@@ -119,6 +121,13 @@ public class EditActivity extends AppCompatActivity implements HttpCallback{
 
         //추가 버튼
         buttonInsert = findViewById(R.id.keyword_add);
+
+        //항목 20개 넘으면 추가버튼 비활성화
+        if(mList.size()>20) {
+            buttonInsert.setClickable(false);
+        }
+
+        //추가버튼 누를 경우
         buttonInsert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -132,9 +141,12 @@ public class EditActivity extends AppCompatActivity implements HttpCallback{
                 }else if(mList.contains(str)){
                     Log.d(TAG, "특수문자 포함");
                     Toast.makeText(EditActivity.this, "이미 존재하는 키워드입니다.", Toast.LENGTH_LONG).show();
-                }else {
+                } else if (mList.size() >= 20) {
+                    Toast.makeText(EditActivity.this, "키워드는 최대 20개까지 등록할 수 있습니다.", Toast.LENGTH_LONG).show();
+                } else {
                     Log.d(TAG, "키워드 추가!");
                     mList.add(str);
+                    Collections.sort(mList);
                     addedList.add(str);
                     keyword_typing.setText(null); //기존에 타이핑한 문자는 삭제
                     mAdapter.notifyDataSetChanged();
@@ -196,11 +208,20 @@ public class EditActivity extends AppCompatActivity implements HttpCallback{
         //switch문을
         if(item.getItemId() == android.R.id.home){
             //toolbar의 back키 눌렀을 때 동작
-                alertSaveChange();
+            alertSaveChange();
         }
         return super.onOptionsItemSelected(item);
     }
 
+    private void toastBoardNull(){
+        if(!SaveSharedPreference.getBoardSwitch1(EditActivity.this) &&
+                !SaveSharedPreference.getBoardSwitch2(EditActivity.this)) {
+            Toast.makeText(EditActivity.this,
+                    "현재 탐색 게시판이 설정되어있지 않습니다." +
+                            "게시판을 설정하지 않으면 키워드를 설정해두어도 공지사항 알림을 받을 수 없습니다.",
+                    Toast.LENGTH_LONG).show();
+        }
+    }
     //나가기 경고 알림
     private void alertSaveChange(){
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(EditActivity.this);
@@ -297,8 +318,8 @@ public class EditActivity extends AppCompatActivity implements HttpCallback{
 //    public void addItem(String title, String link) {
 //        DataNotices item = new DataNotices();
 //
-//        item.setLink(title);
-//        item.setTitle(link);
+//        item.setTitle(title);
+//        item.setLink(link);
 //
 //        mList.add(item);
 //    }
@@ -307,4 +328,43 @@ public class EditActivity extends AppCompatActivity implements HttpCallback{
 //    public boolean validation() {
 //        return emailOK.equals(InputEmail) && passwordOK.equals(InputPassword);
 //    }
+
+    public void toggleOn(ToggleButton toggleButton) {
+        toggleButton.setTextColor(Color.BLUE);
+        toggleButton.setChecked(true);
+    }
+
+    public void toggleOff(ToggleButton toggleButton) {
+        toggleButton.setTextColor(Color.GRAY);
+        toggleButton.setChecked(false);
+    }
+
+    public void toggleView(ToggleButton toggleButton, int toggleNumber) {
+        if(toggleNumber==1){
+            if(!SaveSharedPreference.getBoardSwitch1(EditActivity.this)) {
+                toggleOff(toggleButton);
+            } else {
+                toggleOn(toggleButton);
+            }
+        } else if(toggleNumber==2){
+            if(!SaveSharedPreference.getBoardSwitch2(EditActivity.this)) {
+                toggleOff(toggleButton);
+            } else {
+                toggleOn(toggleButton);
+            }
+        }
+
+    }
+
+    public boolean toggleState(ToggleButton toggleButton){
+        boolean state;
+        if (toggleButton.isChecked()) {
+            toggleButton.setTextColor(Color.BLUE);
+            state = true;
+        } else {
+            toggleButton.setTextColor(Color.GRAY);
+            state = false;
+        }
+        return state;
+    }
 }

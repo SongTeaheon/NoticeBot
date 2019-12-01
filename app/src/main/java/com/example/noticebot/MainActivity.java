@@ -24,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<DataNotices> mList = new ArrayList<>();
     MainNoticesAdapter mAdapter;
     private final String TAG = "TAGLoginActivity";
+    DBHelper dbHelper;
+
 
     //화면 레이아웃
     @Override
@@ -108,7 +110,11 @@ public class MainActivity extends AppCompatActivity {
                                     DialogInterface dialog, int id) {
                                 //로그인 기록 삭제
                                 SaveSharedPreference.clearUserName(MainActivity.this);
-
+                                if(dbHelper == null){
+                                    Log.d(TAG, "new DBHelper ");
+                                    dbHelper = new DBHelper(MainActivity.this, "APP_DB", null, 1);
+                                    dbHelper.deleteAll();
+                                }
                                 //바로 종료보다는 로그인 화면으로 돌아가는 게 더 좋지 않나..?
                                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                                 startActivity(intent);
