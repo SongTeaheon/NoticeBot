@@ -16,15 +16,19 @@ import android.view.MenuItem;
 
 import android.os.Bundle;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements HttpCallback{
 
     RecyclerView mRecyclerView = null;
     ArrayList<DataNotices> mList = new ArrayList<>();
     MainNoticesAdapter mAdapter;
     private final String TAG = "TAGLoginActivity";
     DBHelper dbHelper;
+    RecyclerView recyclerView;
 
 
     //화면 레이아웃
@@ -33,13 +37,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+//        requestData();
+
         //메뉴 액션바
         getSupportActionBar().setTitle("메인화면");
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xFF339999));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // 리사이클러뷰에 LinearLayoutManager 객체 지정.
-        RecyclerView recyclerView = findViewById(R.id.recyclerview_main_list);
+        recyclerView = findViewById(R.id.recyclerview_main_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // 리사이클러뷰에 SimpleTextAdapter 객체 지정.
@@ -191,5 +197,38 @@ public class MainActivity extends AppCompatActivity {
 
     public void onTitleButtonClicked(int position) {
         Log.d(TAG,position + "번 링크 클릭됨");
+    }
+
+    void requestData(){
+        try {
+            JSONObject data = new JSONObject();
+            data.put("type", "데이터 내놔!!");
+            String name = SaveSharedPreference.getUserName(this);
+            data.put("name", name);
+            NetworkTask networkTask = new NetworkTask(this, data, "data");
+            networkTask.execute();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void callback(JSONObject resultJson) {
+        Log.d(TAG, "main callback called");
+
+        try {
+            String msg = resultJson.getString("message");
+            //TODO: mList에 날아온 데이터를 세팅한다.
+            setRecyclerView();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    void setRecyclerView(){
+        // 리사이클러뷰에 SimpleTextAdapter 객체 지정.
+        MainNoticesAdapter adapter = new MainNoticesAdapter(this, mList);
+        recyclerView.setAdapter(adapter);
+
     }
 }

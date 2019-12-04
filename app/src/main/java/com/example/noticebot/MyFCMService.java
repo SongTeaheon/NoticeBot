@@ -17,6 +17,9 @@ import androidx.core.app.NotificationCompat;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class MyFCMService extends FirebaseMessagingService {
     private final String TAG = "TAGMyFCMService";
     public MyFCMService() {
@@ -43,15 +46,34 @@ public class MyFCMService extends FirebaseMessagingService {
     @Override
     public void onNewToken(String token) {
         super.onNewToken(token);
+        Log.d(TAG, "token!!!!" + token);
         // If you want to send messages to this application instance or
         // manage this apps subscriptions on the server side, send the
         // Instance ID token to your app server.
         sendRegistrationToServer(token);
     }
 
+
+
     //??
     private void sendRegistrationToServer(String token) {
-
+        Log.d(TAG, "login func start");
+        try {
+            JSONObject data = new JSONObject();
+            data.put("type", "token");
+            String name = SaveSharedPreference.getUserName(this);
+            data.put("name", name);
+            data.put("token", token);
+            NetworkTask networkTask = new NetworkTask(new HttpCallback() {
+                @Override
+                public void callback(JSONObject resultJson) {
+                    Log.d(TAG, resultJson.toString());
+                }
+            }, data, "login");
+            networkTask.execute();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void sendNotification(String messageBody) {
