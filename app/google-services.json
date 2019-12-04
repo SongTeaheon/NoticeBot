@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "210932128841",
+    "firebase_url": "https://noticebot-1abd0.firebaseio.com",
+    "project_id": "noticebot-1abd0",
+    "storage_bucket": "noticebot-1abd0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:210932128841:android:6a23235435897ae8823398",
+        "android_client_info": {
+          "package_name": "com.example.noticebot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "210932128841-lk94jnd73qcq0t9tq2uqh5eh2nr0lkph.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.noticebot",
+            "certificate_hash": "cbe4a82cf6108a8a07fdf969d0052d613aaad854"
+          }
+        },
+        {
+          "client_id": "210932128841-e5i6f7tslhfib3gmq3e3su29317h1ssr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzCv-xMNcd7qbH5_G89RR01BNVUSlHYX8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "210932128841-e5i6f7tslhfib3gmq3e3su29317h1ssr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
