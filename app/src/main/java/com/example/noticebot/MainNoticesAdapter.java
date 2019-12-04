@@ -20,12 +20,12 @@ public class MainNoticesAdapter extends RecyclerView.Adapter<MainNoticesAdapter.
     private Context mContext;
 
     public class NoticesViewHolder extends RecyclerView.ViewHolder {
-        protected TextView keyword;
+//        protected TextView keyword;
         protected TextView title;
 
         public NoticesViewHolder(View view) {
             super(view);
-            this.keyword = view.findViewById(R.id.keyword_item_notices);
+//            this.keyword = view.findViewById(R.id.keyword_item_notices);
             this.title = view.findViewById(R.id.title_item_notices);
 
             // 공지사항 제목 클릭 처리
@@ -63,7 +63,7 @@ public class MainNoticesAdapter extends RecyclerView.Adapter<MainNoticesAdapter.
     public void onBindViewHolder(@NonNull NoticesViewHolder viewholder, final int position) {
         final DataNotices item = mList.get(position) ;
 
-        viewholder.keyword.setText(item.getKeyword());
+//        viewholder.keyword.setText(item.getKeyword());
         viewholder.title.setText(item.getTitle()) ;
         viewholder.title.setOnClickListener(new View.OnClickListener() {
             @Override
