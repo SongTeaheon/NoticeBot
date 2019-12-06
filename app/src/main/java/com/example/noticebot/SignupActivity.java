@@ -13,6 +13,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class SignupActivity extends AppCompatActivity implements HttpCallback{
     private final String TAG = "TAGSignupActivity";
     EditText EditText_NewId, EditText_NewPassword, EditText_NewPasswordCheck;
@@ -50,10 +53,10 @@ public class SignupActivity extends AppCompatActivity implements HttpCallback{
 
                 if(!name.matches("[0-9]*") || name.length() != 10) {
                     Utils.alertFunc(SignupActivity.this, "아이디 형식 불일치", "학번(숫자 10자)로 가입하시기 바랍니다.");
-                }else if(newPassword.length() == 0){
-                    Utils.alertFunc(SignupActivity.this, "비밀번호 불일치", "비밀번호를 입력하시기 바랍니다.");
+                }else if(validatePassword(newPassword)){
+                    Utils.alertFunc(SignupActivity.this, "비밀번호 형식 불일치", "비밀번호는 6~20자의 영문 대소문자, 숫자, 특수문자만의 조합으로 작성해주시기 바랍니다.");
                 }else if(!newPassword.equals(newPasswordCheck)) {//비밀번호 불일치
-                    Utils.alertFunc(SignupActivity.this, "비밀번호 불일치", "비밀번호를 일치시켜주시기 바랍니다.");
+                    Utils.alertFunc(SignupActivity.this, "비밀번호 확인 불일치", "비밀번호를 일치시켜주시기 바랍니다.");
                 }else{
                     signUp(name, newPassword);
                 }
@@ -98,6 +101,17 @@ public class SignupActivity extends AppCompatActivity implements HttpCallback{
         Intent intent = new Intent(SignupActivity.this, MainActivity.class);
         startActivity(intent);
     }
+
+    //비밀번호 체크 정규식
+//    public static final Pattern VALID_PASSWOLD_REGEX_ALPHA_NUM = Pattern.compile("^[a-zA-Z0-9!@.#$%^&*?_~]{6,20}$"); // 6자리 ~ 20자리의 영문 대소문자, 숫자, 특수문자 일부
+    public static boolean validatePassword(String pwStr) {
+        String passwordPattern = "^(?=.*[a-zA-Z]+)(?=.*[0-9]+).{6,20}$";
+        Pattern pattern = Pattern.compile(passwordPattern);
+        Matcher matcher = pattern.matcher(pwStr);
+        return !matcher.matches();
+    }
+
+
 }
 
 
