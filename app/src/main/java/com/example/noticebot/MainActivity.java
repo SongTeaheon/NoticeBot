@@ -25,7 +25,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity implements HttpCallback{
 
     ArrayList<DataNotices> mList = new ArrayList<>();
-    private final String TAG = "TAGLoginActivity";
+    private final String TAG = "TAGMainActivity";
     DBHelper dbHelper;
     RecyclerView recyclerView;
 
@@ -45,7 +45,6 @@ public class MainActivity extends AppCompatActivity implements HttpCallback{
 
         }
 
-        //TODO: request data 확인
         requestData();
 
         Log.d(TAG, "token check : " + dbHelper.getToken());
@@ -226,8 +225,9 @@ public class MainActivity extends AppCompatActivity implements HttpCallback{
                 DataNotices dataNotices = new DataNotices(id, title, link);
                 dbHelper.addNotice(dataNotices);
             }
-            // TODO: test로 임의의 리스트 형성 삭제하기
-            testNoticesList();
+
+            //test코
+//            testNoticesList();
 
             mList = dbHelper.getAllNotice();
 

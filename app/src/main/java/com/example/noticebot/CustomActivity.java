@@ -154,26 +154,8 @@ public class CustomActivity extends AppCompatActivity {
 
 
     public void testCustomKeywords() {
-        //TODO 내림차순 정렬 알고리즘 만들어 적용시키기
-        mList.add("연구");
-        mList.add("공학");
-        mList.add("AI");
-        mList.add("연수");
-        mList.add("어학");
-        mList.add("가1");
-        mList.add("가2");
-        mList.add("나3");
-        mList.add("가4");
-        mList.add("가5");
-        mList.add("다6");
-        mList.add("가7");
-        mList.add("가8");
-        mList.add("라9");
-        mList.add("라10");
-        mList.add("가11");
-        mList.add("a12");
-        mList.add("b13");
-        mList.add("x14");
+        mList.add("ㅊㅣㅌㅡㅋㅣ");
+
         Collections.sort(mList);
         updateDB();
     }
@@ -182,6 +164,5 @@ public class CustomActivity extends AppCompatActivity {
         for(int i = 0; i < mList.size(); i++){
             dbHelper.addKeyword(mList.get(i));
         }
-        dbHelper.getAllKeyword(); //TODO: 테스트용 지우기.
     }
 }

@@ -17,6 +17,9 @@ public class SignupActivity extends AppCompatActivity implements HttpCallback{
     private final String TAG = "TAGSignupActivity";
     EditText EditText_NEWemail, EditText_NEWpassword, EditText_NEWpasswordcheck;
     Button Button_Signup;
+    DBHelper dbHelper;
+    String name;
+
 
     //임시 ID체크
     String[] emailCheck = {"ijk", "abc", "xyz"};
@@ -25,6 +28,12 @@ public class SignupActivity extends AppCompatActivity implements HttpCallback{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
+
+        //토큰을 위한 dbHelper
+        if(dbHelper == null){
+            Log.d(TAG, "new DBHelper ");
+            dbHelper = new DBHelper(this, "APP_DB", null, 1);
+        }
 
         // R (Resource)의 id인 ~~를 볼러와 변수로 설정하는 것. (앞과 뒤가 똑같은 변수명이지만, 지역적으로 할당되어 있으므로 문제 없음)
         EditText_NEWemail = findViewById(R.id.EditText_NEWemail);
@@ -39,18 +48,18 @@ public class SignupActivity extends AppCompatActivity implements HttpCallback{
         Button_Signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String newEmail = EditText_NEWemail.getText().toString();
+                name = EditText_NEWemail.getText().toString();
                 String newPassword = EditText_NEWpassword.getText().toString();
                 String newPasswordCheck = EditText_NEWpasswordcheck.getText().toString();
 
-                if(!newEmail.matches("[0-9]*") || newEmail.length() != 10) {
+                if(!name.matches("[0-9]*") || name.length() != 10) {
                     Utils.alertFunc(SignupActivity.this, "아이디 형식 불일치", "학번(숫자 10자)로 가입하시기 바랍니다.");
                 }else if(newPassword.length() == 0){
                     Utils.alertFunc(SignupActivity.this, "비밀번호 불일치", "비밀번호를 입력하시기 바랍니다.");
                 }else if(!newPassword.equals(newPasswordCheck)) {//비밀번호 불일치
                     Utils.alertFunc(SignupActivity.this, "비밀번호 불일치", "비밀번호를 일치시켜주시기 바랍니다.");
                 }else{
-                    signUp(newEmail, newPassword);
+                    signUp(name, newPassword);
                 }
 
             }
@@ -79,6 +88,7 @@ public class SignupActivity extends AppCompatActivity implements HttpCallback{
         try {
             String msg = resultJson.getString("message");
             if(msg.equals("record inserted.")){
+                Utils.sendTokenToServer(name, dbHelper.getToken());
                 moveToMainActivity();
             }else if(msg.equals("name already exist")){
                 Utils.alertFunc(SignupActivity.this, "회원가입 실패", "해당 id가 이미 존재합니다.");
