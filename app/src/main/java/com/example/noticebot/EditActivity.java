@@ -42,6 +42,8 @@ public class EditActivity extends AppCompatActivity implements HttpCallback{
     EditText keyword_typing;
     RecyclerView mRecyclerView;
     Button buttonInsert;
+    ToggleButton toggleBoard1;
+    ToggleButton toggleBoard2;
 
     //화면 레이아웃
     @Override
@@ -82,7 +84,7 @@ public class EditActivity extends AppCompatActivity implements HttpCallback{
 
 
         //토글 스위치 (board 1) : 일반
-        final ToggleButton toggleBoard1 = this
+        toggleBoard1 = this
                 .findViewById(R.id.Toggle_Board1);
 
         //화면 진입시
@@ -91,13 +93,13 @@ public class EditActivity extends AppCompatActivity implements HttpCallback{
         //클릭시
         toggleBoard1.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
-                SaveSharedPreference.setBoardSwitch1(EditActivity.this, toggleState(toggleBoard1));
-                toastBoardNull();
+//                SaveSharedPreference.setBoardSwitch1(EditActivity.this, toggleState(toggleBoard1));
+//                toastBoardNull();
             }
         });
 
         //토글 스위치 (board 2) : 학사
-        final ToggleButton toggleBoard2 = this
+        toggleBoard2 = this
                 .findViewById(R.id.Toggle_Board2);
 
         //화면 진입시
@@ -106,8 +108,8 @@ public class EditActivity extends AppCompatActivity implements HttpCallback{
         //클릭시
         toggleBoard2.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
-                SaveSharedPreference.setBoardSwitch2(EditActivity.this, toggleState(toggleBoard2));
-                toastBoardNull();
+//                SaveSharedPreference.setBoardSwitch2(EditActivity.this, toggleState(toggleBoard2));
+//                toastBoardNull();
             }
         });
 
@@ -237,6 +239,10 @@ public class EditActivity extends AppCompatActivity implements HttpCallback{
                                 checkDeletedList(); //deletedList에 있는 Item이 mList에 있는 경우 확인
                                 checkAddedList(); //AddedList에 있는 Item이 mList에 없는 경우 확인.
 
+                                SaveSharedPreference.setBoardSwitch1(EditActivity.this, toggleState(toggleBoard1));
+                                SaveSharedPreference.setBoardSwitch2(EditActivity.this, toggleState(toggleBoard2));
+                                toastBoardNull();
+
                                 JSONObject data = makeJson();
                                 NetworkTask networkTask = new NetworkTask(EditActivity.this, data, "keyword");
                                 networkTask.execute();
@@ -273,6 +279,8 @@ public class EditActivity extends AppCompatActivity implements HttpCallback{
             resJSON.put("name", name);
             resJSON.put("add", addedList);
             resJSON.put("delete", deletedList);
+            resJSON.put("normal", (toggleState(toggleBoard1)? 1 : 0));
+            resJSON.put("school", (toggleState(toggleBoard2)? 1 : 0));
             Log.d(TAG, resJSON.toString());
         } catch (JSONException e) {
             e.printStackTrace();
