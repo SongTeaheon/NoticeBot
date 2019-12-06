@@ -20,12 +20,12 @@ public class MainNoticesAdapter extends RecyclerView.Adapter<MainNoticesAdapter.
     private Context mContext;
 
     public class NoticesViewHolder extends RecyclerView.ViewHolder {
-//        protected TextView keyword;
+        protected TextView num;
         protected TextView title;
 
         public NoticesViewHolder(View view) {
             super(view);
-//            this.keyword = view.findViewById(R.id.keyword_item_notices);
+            this.num = view.findViewById(R.id.tv_index);
             this.title = view.findViewById(R.id.title_item_notices);
 
             // 공지사항 제목 클릭 처리
@@ -65,6 +65,7 @@ public class MainNoticesAdapter extends RecyclerView.Adapter<MainNoticesAdapter.
 
 //        viewholder.keyword.setText(item.getKeyword());
         viewholder.title.setText(item.getTitle()) ;
+        viewholder.num.setText(Integer.toString(position+1));
         viewholder.title.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
