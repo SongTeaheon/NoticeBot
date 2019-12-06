@@ -14,7 +14,6 @@ import android.view.MenuItem;
 import android.view.View;
 
 import android.os.Bundle;
-import android.widget.Button;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -64,7 +63,7 @@ public class CustomActivity extends AppCompatActivity {
 
         // dummy data (리사이클러뷰 데이터 형성)
         //TODO: 테스트용 코드. 서버 통신으로 키워드를 받아오면 없앨 것!
-        mList = dbHelper.getAllData();
+        mList = dbHelper.getAllKeyword();
         if(mList.size() == 0)
             testCustomKeywords();
 
@@ -179,10 +178,10 @@ public class CustomActivity extends AppCompatActivity {
         updateDB();
     }
     private void updateDB(){
-        dbHelper.deleteAll();
+        dbHelper.deleteAllKeyword();
         for(int i = 0; i < mList.size(); i++){
             dbHelper.addKeyword(mList.get(i));
         }
-        dbHelper.getAllData(); //TODO: 테스트용 지우기.
+        dbHelper.getAllKeyword(); //TODO: 테스트용 지우기.
     }
 }

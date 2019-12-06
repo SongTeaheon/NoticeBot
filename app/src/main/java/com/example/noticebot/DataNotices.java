@@ -4,9 +4,11 @@ public class DataNotices {
 
     private String title;
     private String link;
+    private int id;
 
 
-    public DataNotices(String title, String link) {
+    public DataNotices(int id, String title, String link) {
+        this.id = id;
         this.title = title;
         this.link = link;
     }
@@ -27,4 +29,11 @@ public class DataNotices {
         this.title = title;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }

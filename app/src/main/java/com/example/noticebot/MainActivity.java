@@ -20,14 +20,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements HttpCallback{
 
-    RecyclerView mRecyclerView = null;
     ArrayList<DataNotices> mList = new ArrayList<>();
-    MainNoticesAdapter mAdapter;
     private final String TAG = "TAGLoginActivity";
     DBHelper dbHelper;
     RecyclerView recyclerView;
@@ -44,10 +41,13 @@ public class MainActivity extends AppCompatActivity implements HttpCallback{
             dbHelper = new DBHelper(MainActivity.this, "APP_DB", null, 1);
             dbHelper.createKeywordTable();
             dbHelper.createTokenTable();//onNewToken에서 불리지만, 만약을 대비해서!!
+            dbHelper.createNoticeTable();
+
         }
 
+        //TODO: request data 확인
         requestData();
-        //TODO: test token 확인
+
         Log.d(TAG, "token check : " + dbHelper.getToken());
         //메뉴 액션바
         getSupportActionBar().setTitle("메인화면");
@@ -62,16 +62,13 @@ public class MainActivity extends AppCompatActivity implements HttpCallback{
         MainNoticesAdapter adapter = new MainNoticesAdapter(this, mList);
         recyclerView.setAdapter(adapter);
 
-        // test로 임의의 리스트 형성
-//        testNoticesList();
-
         adapter.notifyDataSetChanged();
     }
 
     //리사이클러 뷰 아이템 형성
-    public void addItem(String keyword, String title) {
-        DataNotices item = new DataNotices(title, "https://uos.ac.kr/korNotice/view.do?list_id=FA1&seq=21688&sort=1&epTicket=LOG");
-        mList.add(item);
+    public void addItem(int id, String keyword, String title) {
+        DataNotices item = new DataNotices(id, title, "https://uos.ac.kr/korNotice/view.do?list_id=FA1&seq=21688&sort=1&epTicket=LOG");
+        dbHelper.addNotice(item);
     }
 
     //액션버튼 메뉴 액션바에 집어 넣기
@@ -174,19 +171,19 @@ public class MainActivity extends AppCompatActivity implements HttpCallback{
 //        for (int i = 0; i < 20; i++) {
 //            addItem("키워드" + (i + 1), "공지사항 제목" + (i + 1));
 //        }
-        addItem("연구","[신청가능연구실목록] 2019-겨울 공학연구인턴십 참여 신청 안내");
-        addItem("공학","[학생미래지원센터] WDB공학 채용설명회 개최");
-        addItem("공학","[공학교육혁신센터] 2019 공학페스티벌 \"학생성과 발표대회\" 신청 안내");
-        addItem("연구","2019년 서울시립대학교 연구윤리 특강 안내");
-        addItem("공학","[공학교육혁신센터] 2019 공학페스티벌 「공학밴드」 참가팀 모집");
-        addItem("AI","[공학교육혁신센터] 2019 공학페스티벌 \"AI 사물인식해커톤\" 참가자 모집 안내");
-        addItem("연구","2019년 대학혁신지원사업 [우수 학생 연구인력 지원 확대] 프로그램 참가자 모집(1차)(수정)");
-        addItem("어학","서울시립대학교 한국어학당 직원 인사 관리 규정 제정 공고");
-        addItem("연구","서울연구원 시민 아이디어 공모전 안내");
-        addItem("연수","2019년 하반기 한미대학생연수(WEST) 대학설명회 개최 안내");
-        addItem("AI","2019 인텔 AI 드론 경진대회");
-        addItem("어학","2019년도 봄학기 서울시립대학교 글로벌외국어교육센터 교내어학프로그램 장학프로그램 안내");
-        addItem("연수","[삼육대학교] 2019년 파란사다리 사업 - 해외연수프로그램 참가자 선발");
+        addItem(1, "연구","[신청가능연구실목록] 2019-겨울 공학연구인턴십 참여 신청 안내");
+        addItem(2, "공학","[학생미래지원센터] WDB공학 채용설명회 개최");
+        addItem(3, "공학","[공학교육혁신센터] 2019 공학페스티벌 \"학생성과 발표대회\" 신청 안내");
+        addItem(4, "연구","2019년 서울시립대학교 연구윤리 특강 안내");
+        addItem(5, "공학","[공학교육혁신센터] 2019 공학페스티벌 「공학밴드」 참가팀 모집");
+        addItem(6, "AI","[공학교육혁신센터] 2019 공학페스티벌 \"AI 사물인식해커톤\" 참가자 모집 안내");
+        addItem(7, "연구","2019년 대학혁신지원사업 [우수 학생 연구인력 지원 확대] 프로그램 참가자 모집(1차)(수정)");
+        addItem(8, "어학","서울시립대학교 한국어학당 직원 인사 관리 규정 제정 공고");
+        addItem(9, "연구","서울연구원 시민 아이디어 공모전 안내");
+        addItem(10, "연수","2019년 하반기 한미대학생연수(WEST) 대학설명회 개최 안내");
+        addItem(11, "AI","2019 인텔 AI 드론 경진대회");
+        addItem(12, "어학","2019년도 봄학기 서울시립대학교 글로벌외국어교육센터 교내어학프로그램 장학프로그램 안내");
+        addItem(13, "연수","[삼육대학교] 2019년 파란사다리 사업 - 해외연수프로그램 참가자 선발");
 
     }
 
@@ -219,16 +216,20 @@ public class MainActivity extends AppCompatActivity implements HttpCallback{
 
         try {
             String msg = resultJson.getString("message");
-            //TODO: mList에 날아온 데이터를 세팅한다.
             Log.d(TAG, "resulsJosn : " + resultJson.toString());
             JSONArray data = resultJson.getJSONArray("result");
             for(int i = 0; i < data.length(); i++){
                 JSONObject object = data.getJSONObject(i);
                 String link = object.getString("link");
                 String title = object.getString("title");
-                DataNotices dataNotices = new DataNotices(title, link);
-                mList.add(dataNotices);
+                int id = object.getInt("id");
+                DataNotices dataNotices = new DataNotices(id, title, link);
+                dbHelper.addNotice(dataNotices);
             }
+            // TODO: test로 임의의 리스트 형성 삭제하기
+            testNoticesList();
+
+            mList = dbHelper.getAllNotice();
 
             setRecyclerView();
         } catch (JSONException e) {
@@ -246,7 +247,8 @@ public class MainActivity extends AppCompatActivity implements HttpCallback{
         String name = SaveSharedPreference.getUserName(MainActivity.this);
 
         //db삭제
-        dbHelper.deleteAll();
+        dbHelper.deleteAllKeyword();
+        dbHelper.deleteAllNotice();
 
         //토큰 삭제
         Utils.sendTokenToServer(name, "no token");
