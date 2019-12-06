@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">시립대 알림봇 (Proto)</string>
+    <string name="app_name">시립대 알림봇</string>
 
     <string name="title_home">홈</string>
     <string name="title_notifications">공지사항</string>
@@ -8,4 +8,5 @@
     <string name="title_logout">로그아웃</string>
     <string name="btn_board1">일반</string>
     <string name="btn_board2">학사</string>
+    <string name="cheat_notice">[ㅊㅣㅌㅡㅋㅣ]라는 키워드가 목록에 있으면 모든 공지들을 다 받아보실 수 있습니다.</string>
 </resources>
