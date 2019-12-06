@@ -92,6 +92,7 @@ public class EditActivity extends AppCompatActivity implements HttpCallback{
         //클릭시
         ToggleButton_Board1.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
+                toggleState(ToggleButton_Board1);
 //                SaveSharedPreference.setBoardSwitch1(EditActivity.this, toggleState(ToggleButton_Board1));
 //                toastBoardNull();
             }
@@ -107,6 +108,7 @@ public class EditActivity extends AppCompatActivity implements HttpCallback{
         //클릭시
         ToggleButton_Board2.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
+                toggleState(ToggleButton_Board2);
 //                SaveSharedPreference.setBoardSwitch2(EditActivity.this, toggleState(ToggleButton_Board2));
 //                toastBoardNull();
             }
@@ -258,12 +260,15 @@ public class EditActivity extends AppCompatActivity implements HttpCallback{
                         new DialogInterface.OnClickListener() {
                             public void onClick(
                                     DialogInterface dialog, int id) {
-                                // 프로그램을 종료한다
-                                Intent intent = new Intent();
-                                Log.d(TAG, "no change. ");
-                                intent.putExtra("save", 0);
-                                setResult(RESULT_OK, intent);
-                                finish();
+//                                 //프로그램을 종료한다
+//                                Intent intent = new Intent();
+//                                Log.d(TAG, "no change. ");
+//                                intent.putExtra("save", 0);
+//                                setResult(RESULT_OK, intent);
+//                                finish();
+
+                                //그자리에 남아있는다.
+                                dialog.cancel();
                             }
                         });
         AlertDialog alertDialog = alertDialogBuilder.create();

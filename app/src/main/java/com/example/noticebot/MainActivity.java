@@ -10,11 +10,14 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import android.os.Bundle;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements HttpCallback{
     private final String TAG = "TAGMainActivity";
     DBHelper dbHelper;
     RecyclerView RecyclerView_NoticeMain;
+    TextView networkAlert;
 
 
     //화면 레이아웃
@@ -64,6 +68,14 @@ public class MainActivity extends AppCompatActivity implements HttpCallback{
         adapter.notifyDataSetChanged();
     }
 
+    //네트워크 상태 체크
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        checkInternetState();
+    }
+
     //리사이클러 뷰 아이템 형성
     public void addItem(int id, String keyword, String title) {
         DataNotices item = new DataNotices(id, title, "https://uos.ac.kr/korNotice/view.do?list_id=FA1&seq=21688&sort=1&epTicket=LOG");
@@ -80,15 +92,20 @@ public class MainActivity extends AppCompatActivity implements HttpCallback{
     //액션버튼을 클릭했을때의 동작
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        //나가기 버튼 눌렀을 때
+
         switch (item.getItemId()){
+            //나가기 버튼 눌렀을 때
             case android.R.id.home:
                 alertExit();
                 break;
+
+            //설정 버튼 눌렀을 때
             case R.id.Item_MenuSetting:
                 Intent intent = new Intent(MainActivity.this, CustomActivity.class);
                 startActivity(intent);
                 break;
+
+            // 로그아웃 버튼 눌렀을 때
             case R.id.Item_MenuLogout:
                 alertLogout();
                 break;
@@ -256,5 +273,14 @@ public class MainActivity extends AppCompatActivity implements HttpCallback{
         //로그인 기록 삭제
         SaveSharedPreference.clearUserName(MainActivity.this);
 
+    }
+
+    private void checkInternetState() {
+        int networkStatus = NetworkStatus.getConnectivityStatus(getApplicationContext());
+
+        if(networkStatus != NetworkStatus.TYPE_MOBILE && networkStatus != NetworkStatus.TYPE_WIFI) {
+            Toast.makeText(MainActivity.this,
+                    "현재 네트워크에 연결되어 있지 않습니다. 어플리케이션을 정상적으로 작동시키시려면 데이터 네트워크 혹은 와이파이에 연결해주시기 바랍니다.",Toast.LENGTH_LONG).show();
+        }
     }
 }
