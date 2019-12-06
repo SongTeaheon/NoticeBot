@@ -14,12 +14,11 @@ public class CustomKeywordAdapter extends RecyclerView.Adapter<CustomKeywordAdap
     private ArrayList<String> mList;
 
     public class KeywordCustomViewHolder extends RecyclerView.ViewHolder {
-        protected TextView keyword;
-        protected TextView title;
+        protected TextView TextView_KeywordCustom;
 
         public KeywordCustomViewHolder(View view) {
             super(view);
-            this.keyword = (TextView) view.findViewById(R.id.keyword_custom);
+            this.TextView_KeywordCustom = (TextView) view.findViewById(R.id.TextView_KeywordCustom);
         }
     }
 
@@ -41,7 +40,7 @@ public class CustomKeywordAdapter extends RecyclerView.Adapter<CustomKeywordAdap
     public void onBindViewHolder(@NonNull CustomKeywordAdapter.KeywordCustomViewHolder viewholder, int position) {
         String item = mList.get(position) ;
 
-        viewholder.keyword.setText(item);
+        viewholder.TextView_KeywordCustom.setText(item);
     }
 
     @Override

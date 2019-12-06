@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements HttpCallback{
     ArrayList<DataNotices> mList = new ArrayList<>();
     private final String TAG = "TAGMainActivity";
     DBHelper dbHelper;
-    RecyclerView recyclerView;
+    RecyclerView RecyclerView_NoticeMain;
 
 
     //화면 레이아웃
@@ -54,12 +54,12 @@ public class MainActivity extends AppCompatActivity implements HttpCallback{
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // 리사이클러뷰에 LinearLayoutManager 객체 지정.
-        recyclerView = findViewById(R.id.recyclerview_main_list);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        RecyclerView_NoticeMain = findViewById(R.id.RecyclerView_NoticeMain);
+        RecyclerView_NoticeMain.setLayoutManager(new LinearLayoutManager(this));
 
         // 리사이클러뷰에 SimpleTextAdapter 객체 지정.
         MainNoticesAdapter adapter = new MainNoticesAdapter(this, mList);
-        recyclerView.setAdapter(adapter);
+        RecyclerView_NoticeMain.setAdapter(adapter);
 
         adapter.notifyDataSetChanged();
     }
@@ -85,11 +85,11 @@ public class MainActivity extends AppCompatActivity implements HttpCallback{
             case android.R.id.home:
                 alertExit();
                 break;
-            case R.id.menu_setting:
+            case R.id.Item_MenuSetting:
                 Intent intent = new Intent(MainActivity.this, CustomActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.menu_logout:
+            case R.id.Item_MenuLogout:
                 alertLogout();
                 break;
         }
@@ -240,7 +240,7 @@ public class MainActivity extends AppCompatActivity implements HttpCallback{
     void setRecyclerView(){
         // 리사이클러뷰에 SimpleTextAdapter 객체 지정.
         MainNoticesAdapter adapter = new MainNoticesAdapter(this, mList);
-        recyclerView.setAdapter(adapter);
+        RecyclerView_NoticeMain.setAdapter(adapter);
     }
 
     private void clearData(){

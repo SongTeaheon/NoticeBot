@@ -10,37 +10,37 @@
     >
 
     <ToggleButton
-        android:id="@+id/Toggle_Board1"
+        android:id="@+id/ToggleButton_Board1"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:textOff="@string/btn_board1"
         android:textOn="@string/btn_board1"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/Toggle_Board2"
+        app:layout_constraintRight_toLeftOf="@id/ToggleButton_Board2"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/cheatkey"
+        app:layout_constraintBottom_toTopOf="@id/TextView_CheatkeyNotice"
         />
 
     <ToggleButton
-        android:id="@+id/Toggle_Board2"
+        android:id="@+id/ToggleButton_Board2"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:textOff="@string/btn_board2"
         android:textOn="@string/btn_board2"
-        app:layout_constraintLeft_toRightOf="@id/Toggle_Board1"
+        app:layout_constraintLeft_toRightOf="@id/ToggleButton_Board1"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/Toggle_Board1"
-        app:layout_constraintBottom_toTopOf="@id/cheatkey"
+        app:layout_constraintTop_toTopOf="@id/ToggleButton_Board1"
+        app:layout_constraintBottom_toTopOf="@id/TextView_CheatkeyNotice"
         />
 
     <TextView
-        android:id="@+id/cheatkey"
+        android:id="@+id/TextView_CheatkeyNotice"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/keyword_add"
-        app:layout_constraintTop_toBottomOf="@id/Toggle_Board2"
+        app:layout_constraintBottom_toTopOf="@id/Button_KeywordAdd"
+        app:layout_constraintTop_toBottomOf="@id/ToggleButton_Board2"
         android:layout_marginLeft="50dp"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="20dp"
@@ -48,23 +48,23 @@
         />
 
     <EditText
-        android:id="@+id/keyword_typing"
+        android:id="@+id/EditText_KeywordTyping"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:maxLength="20"
-        app:layout_constraintBottom_toTopOf="@id/recyclerview_keyword_edit"
+        app:layout_constraintBottom_toTopOf="@id/RecyclerView_KeywordEdit"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/keyword_add"
-        app:layout_constraintTop_toBottomOf="@id/cheatkey" />
+        app:layout_constraintRight_toLeftOf="@id/Button_KeywordAdd"
+        app:layout_constraintTop_toBottomOf="@id/TextView_CheatkeyNotice" />
 
     <Button
-        android:id="@+id/keyword_add"
+        android:id="@+id/Button_KeywordAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintLeft_toRightOf="@id/keyword_typing"
+        app:layout_constraintLeft_toRightOf="@id/EditText_KeywordTyping"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cheatkey"
-        app:layout_constraintBottom_toBottomOf="@id/keyword_typing"
+        app:layout_constraintTop_toBottomOf="@id/TextView_CheatkeyNotice"
+        app:layout_constraintBottom_toBottomOf="@id/EditText_KeywordTyping"
         android:background="@drawable/btn_green"
         android:text="+"
         android:textSize="40sp"
@@ -72,12 +72,12 @@
         />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview_keyword_edit"
+        android:id="@+id/RecyclerView_KeywordEdit"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/keyword_typing"
+        app:layout_constraintTop_toBottomOf="@id/EditText_KeywordTyping"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginTop="20dp"
         android:scrollbarFadeDuration="0"

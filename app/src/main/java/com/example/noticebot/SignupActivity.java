@@ -15,14 +15,10 @@ import org.json.JSONObject;
 
 public class SignupActivity extends AppCompatActivity implements HttpCallback{
     private final String TAG = "TAGSignupActivity";
-    EditText EditText_NEWemail, EditText_NEWpassword, EditText_NEWpasswordcheck;
-    Button Button_Signup;
+    EditText EditText_NewId, EditText_NewPassword, EditText_NewPasswordCheck;
+    Button Button_SignupConfirmed;
     DBHelper dbHelper;
     String name;
-
-
-    //임시 ID체크
-    String[] emailCheck = {"ijk", "abc", "xyz"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,21 +32,21 @@ public class SignupActivity extends AppCompatActivity implements HttpCallback{
         }
 
         // R (Resource)의 id인 ~~를 볼러와 변수로 설정하는 것. (앞과 뒤가 똑같은 변수명이지만, 지역적으로 할당되어 있으므로 문제 없음)
-        EditText_NEWemail = findViewById(R.id.EditText_NEWemail);
-        EditText_NEWpassword = findViewById(R.id.EditText_NEWpassword);
-        EditText_NEWpasswordcheck = findViewById(R.id.EditText_NEWpasswordcheck);
-        Button_Signup = findViewById(R.id.Button_SignupConfirmed);
+        EditText_NewId = findViewById(R.id.EditText_NewId);
+        EditText_NewPassword = findViewById(R.id.EditText_NewPassword);
+        EditText_NewPasswordCheck = findViewById(R.id.EditText_NewPasswordCheck);
+        Button_SignupConfirmed = findViewById(R.id.Button_SignupConfirmed);
 
         // 1. 값을 가져온다
         // 2. 클릭을 감지한다
         // 3. 1번의 값을 다음 액티비티로 넘긴다.
-        Button_Signup.setClickable(true);
-        Button_Signup.setOnClickListener(new View.OnClickListener() {
+        Button_SignupConfirmed.setClickable(true);
+        Button_SignupConfirmed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                name = EditText_NEWemail.getText().toString();
-                String newPassword = EditText_NEWpassword.getText().toString();
-                String newPasswordCheck = EditText_NEWpasswordcheck.getText().toString();
+                name = EditText_NewId.getText().toString();
+                String newPassword = EditText_NewPassword.getText().toString();
+                String newPasswordCheck = EditText_NewPasswordCheck.getText().toString();
 
                 if(!name.matches("[0-9]*") || name.length() != 10) {
                     Utils.alertFunc(SignupActivity.this, "아이디 형식 불일치", "학번(숫자 10자)로 가입하시기 바랍니다.");

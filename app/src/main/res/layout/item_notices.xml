@@ -11,7 +11,7 @@
 
 
     <TextView
-        android:id="@+id/tv_index"
+        android:id="@+id/TextView_TvIndex"
         android:layout_width="59dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -19,12 +19,12 @@
         android:text="1"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/title_item_notices"
+        app:layout_constraintEnd_toStartOf="@+id/Button_TitleItemNotices"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/title_item_notices"
+        android:id="@+id/Button_TitleItemNotices"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"

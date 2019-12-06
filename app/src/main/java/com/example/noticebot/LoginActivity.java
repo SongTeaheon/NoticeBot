@@ -16,7 +16,7 @@ import org.json.JSONObject;
 public class LoginActivity extends AppCompatActivity implements HttpCallback{
     private final String TAG = "TAGLoginActivity";
 
-    EditText EditText_name, EditText_password;
+    EditText EditText_Id, EditText_Password;
     Button Button_Login, Button_Signup;
     DBHelper dbHelper;
 
@@ -33,8 +33,8 @@ public class LoginActivity extends AppCompatActivity implements HttpCallback{
             dbHelper = new DBHelper(this, "APP_DB", null, 1);
         }
 
-        EditText_name = findViewById(R.id.EditText_email);
-        EditText_password = findViewById(R.id.EditText_password);
+        EditText_Id = findViewById(R.id.EditText_Id);
+        EditText_Password = findViewById(R.id.EditText_Password);
         Button_Login = findViewById(R.id.Button_Login);
         Button_Signup = findViewById(R.id.Button_Signup);
 
@@ -43,14 +43,14 @@ public class LoginActivity extends AppCompatActivity implements HttpCallback{
         Button_Login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                name = EditText_name.getText().toString();
-                String password = EditText_password.getText().toString();
+                name = EditText_Id.getText().toString();
+                String password = EditText_Password.getText().toString();
                 Log.d(TAG, "name :" + name);
                 if(name.isEmpty()|| password.isEmpty()){
                     Utils.alertFunc(LoginActivity.this, "값 없음", "아이디와 비밀번호를 모두 넣어주세요");
                 }else {
                     login(name, password);
-                    SaveSharedPreference.setUserName(LoginActivity.this, EditText_name.getText().toString());
+                    SaveSharedPreference.setUserName(LoginActivity.this, EditText_Id.getText().toString());
                 }
             }
         });

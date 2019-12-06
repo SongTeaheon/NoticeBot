@@ -25,7 +25,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 
@@ -39,11 +38,11 @@ public class EditActivity extends AppCompatActivity implements HttpCallback{
 
     private EditAdapter mAdapter;
 
-    EditText keyword_typing;
-    RecyclerView mRecyclerView;
-    Button buttonInsert;
-    ToggleButton toggleBoard1;
-    ToggleButton toggleBoard2;
+    EditText EditText_KeywordTyping;
+    RecyclerView RecyclerView_KeywordEdit;
+    Button Button_KeywordAdd;
+    ToggleButton ToggleButton_Board1;
+    ToggleButton ToggleButton_Board2;
 
     //화면 레이아웃
     @Override
@@ -62,12 +61,12 @@ public class EditActivity extends AppCompatActivity implements HttpCallback{
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xFF339999));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        keyword_typing = findViewById(R.id.keyword_typing);
+        EditText_KeywordTyping = findViewById(R.id.EditText_KeywordTyping);
 //        keyword_add = findViewById(R.id.keyword_add);
 
-        mRecyclerView = findViewById(R.id.recyclerview_keyword_edit);
+        RecyclerView_KeywordEdit = findViewById(R.id.RecyclerView_KeywordEdit);
         LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLinearLayoutManager);
+        RecyclerView_KeywordEdit.setLayoutManager(mLinearLayoutManager);
 
 //        mArrayList = new ArrayList<>();
 //        DataKeywords data = new DataKeywords("Apple");
@@ -80,60 +79,60 @@ public class EditActivity extends AppCompatActivity implements HttpCallback{
 //        mArrayList.add(data);
 
         mAdapter = new EditAdapter(mList, deletedList);//지워진 데이터를 알아오기 위해서!!
-        mRecyclerView.setAdapter(mAdapter);
+        RecyclerView_KeywordEdit.setAdapter(mAdapter);
 
 
         //토글 스위치 (board 1) : 일반
-        toggleBoard1 = this
-                .findViewById(R.id.Toggle_Board1);
+        ToggleButton_Board1 = this
+                .findViewById(R.id.ToggleButton_Board1);
 
         //화면 진입시
-        toggleView(toggleBoard1, 1);
+        toggleView(ToggleButton_Board1, 1);
 
         //클릭시
-        toggleBoard1.setOnClickListener(new View.OnClickListener(){
+        ToggleButton_Board1.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
-//                SaveSharedPreference.setBoardSwitch1(EditActivity.this, toggleState(toggleBoard1));
+//                SaveSharedPreference.setBoardSwitch1(EditActivity.this, toggleState(ToggleButton_Board1));
 //                toastBoardNull();
             }
         });
 
         //토글 스위치 (board 2) : 학사
-        toggleBoard2 = this
-                .findViewById(R.id.Toggle_Board2);
+        ToggleButton_Board2 = this
+                .findViewById(R.id.ToggleButton_Board2);
 
         //화면 진입시
-        toggleView(toggleBoard2, 2);
+        toggleView(ToggleButton_Board2, 2);
 
         //클릭시
-        toggleBoard2.setOnClickListener(new View.OnClickListener(){
+        ToggleButton_Board2.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
-//                SaveSharedPreference.setBoardSwitch2(EditActivity.this, toggleState(toggleBoard2));
+//                SaveSharedPreference.setBoardSwitch2(EditActivity.this, toggleState(ToggleButton_Board2));
 //                toastBoardNull();
             }
         });
 
         //키워드 입력창
-        keyword_typing = findViewById(R.id.keyword_typing);
+        EditText_KeywordTyping = findViewById(R.id.EditText_KeywordTyping);
 
         //리사이클러뷰 아이템 형성
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(RecyclerView_KeywordEdit.getContext(),
                 mLinearLayoutManager.getOrientation());
-        mRecyclerView.addItemDecoration(dividerItemDecoration);
+        RecyclerView_KeywordEdit.addItemDecoration(dividerItemDecoration);
 
         //추가 버튼
-        buttonInsert = findViewById(R.id.keyword_add);
+        Button_KeywordAdd = findViewById(R.id.Button_KeywordAdd);
 
         //항목 20개 넘으면 추가버튼 비활성화
         if(mList.size()>20) {
-            buttonInsert.setClickable(false);
+            Button_KeywordAdd.setClickable(false);
         }
 
         //추가버튼 누를 경우
-        buttonInsert.setOnClickListener(new View.OnClickListener() {
+        Button_KeywordAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String str = keyword_typing.getText().toString();
+                String str = EditText_KeywordTyping.getText().toString();
                 str = str.trim();
 
                 //특수 문자 확인
@@ -150,7 +149,7 @@ public class EditActivity extends AppCompatActivity implements HttpCallback{
                     mList.add(str);
                     Collections.sort(mList);
                     addedList.add(str);
-                    keyword_typing.setText(null); //기존에 타이핑한 문자는 삭제
+                    EditText_KeywordTyping.setText(null); //기존에 타이핑한 문자는 삭제
                     mAdapter.notifyDataSetChanged();
                 }
             }
@@ -239,8 +238,8 @@ public class EditActivity extends AppCompatActivity implements HttpCallback{
                                 checkDeletedList(); //deletedList에 있는 Item이 mList에 있는 경우 확인
                                 checkAddedList(); //AddedList에 있는 Item이 mList에 없는 경우 확인.
 
-                                SaveSharedPreference.setBoardSwitch1(EditActivity.this, toggleState(toggleBoard1));
-                                SaveSharedPreference.setBoardSwitch2(EditActivity.this, toggleState(toggleBoard2));
+                                SaveSharedPreference.setBoardSwitch1(EditActivity.this, toggleState(ToggleButton_Board1));
+                                SaveSharedPreference.setBoardSwitch2(EditActivity.this, toggleState(ToggleButton_Board2));
                                 toastBoardNull();
 
                                 JSONObject data = makeJson();
@@ -279,8 +278,8 @@ public class EditActivity extends AppCompatActivity implements HttpCallback{
             resJSON.put("name", name);
             resJSON.put("add", addedList);
             resJSON.put("delete", deletedList);
-            resJSON.put("normal", (toggleState(toggleBoard1)? 1 : 0));
-            resJSON.put("school", (toggleState(toggleBoard2)? 1 : 0));
+            resJSON.put("normal", (toggleState(ToggleButton_Board1)? 1 : 0));
+            resJSON.put("school", (toggleState(ToggleButton_Board2)? 1 : 0));
             Log.d(TAG, resJSON.toString());
         } catch (JSONException e) {
             e.printStackTrace();

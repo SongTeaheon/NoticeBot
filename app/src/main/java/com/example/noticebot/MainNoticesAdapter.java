@@ -25,8 +25,8 @@ public class MainNoticesAdapter extends RecyclerView.Adapter<MainNoticesAdapter.
 
         public NoticesViewHolder(View view) {
             super(view);
-            this.num = view.findViewById(R.id.tv_index);
-            this.title = view.findViewById(R.id.title_item_notices);
+            this.num = view.findViewById(R.id.TextView_TvIndex);
+            this.title = view.findViewById(R.id.Button_TitleItemNotices);
 
             // 공지사항 제목 클릭 처리
             view.setOnClickListener(new View.OnClickListener() {

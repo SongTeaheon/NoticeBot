@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,13 +18,13 @@ public class EditAdapter extends RecyclerView.Adapter<EditAdapter.KeywordEditVie
 
 
     public class KeywordEditViewHolder extends RecyclerView.ViewHolder {
-        protected TextView keyword_edit;
-        Button keyword_delete;
+        protected TextView TextView_KeywordEdit;
+        Button Button_KeywordDelete;
 
         public KeywordEditViewHolder(View view) {
             super(view);
-            this.keyword_edit = view.findViewById(R.id.keyword_edit);
-            this.keyword_delete = view.findViewById(R.id.keyword_delete);
+            this.TextView_KeywordEdit = view.findViewById(R.id.TextView_KeywordEdit);
+            this.Button_KeywordDelete = view.findViewById(R.id.Button_KeywordDelete);
         }
     }
 
@@ -48,8 +47,8 @@ public class EditAdapter extends RecyclerView.Adapter<EditAdapter.KeywordEditVie
     @Override
     public void onBindViewHolder(@NonNull final KeywordEditViewHolder viewholder, final int position) {
 //        DataKeywords item = mList.get(position);
-        viewholder.keyword_edit.setText(mList.get(position));
-        viewholder.keyword_delete.setOnClickListener(new View.OnClickListener() {
+        viewholder.TextView_KeywordEdit.setText(mList.get(position));
+        viewholder.Button_KeywordDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //리스트 삭제

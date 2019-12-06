@@ -10,7 +10,7 @@
     >
 
     <ToggleButton
-        android:id="@+id/fucntion_switch"
+        android:id="@+id/ToggleButton_fucntionSwitch"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:textOff="어플기능 OFF"
@@ -18,18 +18,18 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/recyclerview_keyword_custom"
+        app:layout_constraintBottom_toTopOf="@id/RecyclerView_keywordCustom"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
         />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview_keyword_custom"
+        android:id="@+id/RecyclerView_keywordCustom"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fucntion_switch"
+        app:layout_constraintTop_toBottomOf="@id/ToggleButton_fucntionSwitch"
         app:layout_constraintBottom_toBottomOf="parent"
         android:scrollbarFadeDuration="0"
         android:scrollbarSize="5dp"

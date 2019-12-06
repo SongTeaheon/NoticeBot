@@ -24,7 +24,7 @@ public class CustomActivity extends AppCompatActivity {
 
     private final String TAG = "TAGCustomActivity";
     private final int EDIT_ACTIVITY_REQUEST_CODE = 1001;
-    RecyclerView mRecyclerView = null;
+    RecyclerView RecyclerView_KeywordCustom = null;
     ArrayList<String> mList;
     CustomKeywordAdapter mAdapter;
     DBHelper dbHelper;
@@ -46,20 +46,20 @@ public class CustomActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //토글 스위치
-        final ToggleButton toggleFunction = this
-                .findViewById(R.id.fucntion_switch);
+        final ToggleButton ToggleButton_FunctionSwitch = this
+                .findViewById(R.id.ToggleButton_fucntionSwitch);
 
         //화면 진입시
-        toggleView(toggleFunction);
-        toggleFunction.setOnClickListener(new View.OnClickListener(){
+        toggleView(ToggleButton_FunctionSwitch);
+        ToggleButton_FunctionSwitch.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
-                SaveSharedPreference.setFunctionSwitch(CustomActivity.this, toggleState(toggleFunction));
+                SaveSharedPreference.setFunctionSwitch(CustomActivity.this, toggleState(ToggleButton_FunctionSwitch));
             }
         });
 
         //리사이클러뷰 (키워드)
-        mRecyclerView = findViewById(R.id.recyclerview_keyword_custom);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        RecyclerView_KeywordCustom = findViewById(R.id.RecyclerView_keywordCustom);
+        RecyclerView_KeywordCustom.setLayoutManager(new LinearLayoutManager(this));
 
         // dummy data (리사이클러뷰 데이터 형성)
         //TODO: 테스트용 코드. 서버 통신으로 키워드를 받아오면 없앨 것!
@@ -69,7 +69,7 @@ public class CustomActivity extends AppCompatActivity {
 
         // 리사이클러뷰에 SimpleTextAdapter 객체 지정.
         mAdapter = new CustomKeywordAdapter(mList);
-        mRecyclerView.setAdapter(mAdapter);
+        RecyclerView_KeywordCustom.setAdapter(mAdapter);
 
     }
 
@@ -89,7 +89,7 @@ public class CustomActivity extends AppCompatActivity {
         }
 
         //편집 버튼
-        if(item.getItemId() == R.id.menu_edit){
+        if(item.getItemId() == R.id.Item_MenuEdit){
             Log.d(TAG, "menu_edit clicked");
             Intent intent = new Intent(CustomActivity.this, EditActivity.class);
             intent.putStringArrayListExtra("list", mList);
@@ -114,7 +114,7 @@ public class CustomActivity extends AppCompatActivity {
                 mList = data.getStringArrayListExtra("list");
                 updateDB();
                 mAdapter = new CustomKeywordAdapter(mList);
-                mRecyclerView.setAdapter(mAdapter);
+                RecyclerView_KeywordCustom.setAdapter(mAdapter);
             }
         }
     }

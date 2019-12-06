@@ -12,7 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="30sp"
-
         android:gravity="center"
         android:text="회원가입"
         android:textColor="@android:color/holo_blue_dark"
@@ -22,34 +21,34 @@
 
 
     <EditText
+        android:id="@+id/EditText_NewId"
         android:layout_width="280dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
         android:hint="ID"
         android:layout_marginBottom="20dp"
-        android:id="@+id/EditText_NEWemail"
         >
     </EditText>
 
     <EditText
+        android:id="@+id/EditText_NewPassword"
         android:layout_width="280dp"
         android:layout_height="50dp"
         android:password="true"
         android:layout_gravity="center"
         android:hint="Password"
         android:layout_marginBottom="20dp"
-        android:id="@+id/EditText_NEWpassword"
         >
     </EditText>
 
     <EditText
+        android:id="@+id/EditText_NewPasswordCheck"
         android:layout_width="280dp"
         android:layout_height="50dp"
         android:password="true"
         android:layout_gravity="center"
         android:hint="Password Check"
         android:layout_marginBottom="60dp"
-        android:id="@+id/EditText_NEWpasswordcheck"
         >
     </EditText>
 

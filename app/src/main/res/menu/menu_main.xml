@@ -4,12 +4,12 @@
 
 
     <item
-        android:id="@+id/menu_setting"
+        android:id="@+id/Item_MenuSetting"
         android:title="@string/title_setting"
         />
 
     <item
-        android:id="@+id/menu_logout"
+        android:id="@+id/Item_MenuLogout"
         android:title="@string/title_logout"
         />
 
