@@ -24,9 +24,17 @@ public class DBHelper extends SQLiteOpenHelper {
     public DBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
         this.context = context;
+    }
 
+    public void createKeywordTable(){
         SQLiteDatabase db = getWritableDatabase();
         String query = "Create table if not exists " +tableName +"(" +_id +" INTEGER PRIMARY KEY AUTOINCREMENT, " + wor+" VARCHAR(21));";
+        db.execSQL(query);
+    }
+
+    public void createTokenTable(){
+        SQLiteDatabase db = getWritableDatabase();
+        String query = "Create table if not exists " +"TOKEN_TABLE" +"(" +_id +" INTEGER PRIMARY KEY AUTOINCREMENT, " + "token"+" VARCHAR(1000));";
         db.execSQL(query);
     }
 
@@ -53,6 +61,38 @@ public class DBHelper extends SQLiteOpenHelper {
         db.insert(tableName, null, values);
     }
 
+    public void saveToken(String token){
+        Log.d(TAG, "save token : " + token);
+        SQLiteDatabase db = getWritableDatabase();
+
+        //이미 들어있는 건 지워준다.
+        String query = "delete from TOKEN_TABLE;";
+        db.execSQL(query);
+
+        ContentValues values = new ContentValues();
+        values.put("token", token);
+        db.insert("TOKEN_TABLE", null, values);
+    }
+
+    public String getToken(){
+        Log.d(TAG, "getToken");
+        ArrayList<String> array = new ArrayList<>();
+        String query = "SELECT "+ _id +", " + "token" + " FROM "+ "TOKEN_TABLE;";
+
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = null;
+        try {
+            cursor = db.rawQuery(query, null);
+            while( cursor.moveToNext() ) {
+                Log.d(TAG, cursor.getInt(0) + ": " + cursor.getString(1));
+                array.add(cursor.getString(1));
+            }
+        } finally {
+            if(cursor != null) cursor.close();
+        }
+        return array.get(0);
+    }
+
     public void deleteAll(){
         SQLiteDatabase db = getWritableDatabase();
         String query = "delete from KEYWORD_TABLE;";
@@ -62,7 +102,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public ArrayList<String> getAllData() {
         Log.d(TAG, "getAllData");
         ArrayList<String> res = new ArrayList<>();
-        String query = "SELECT "+ _id +", " + wor + " FROM "+ tableName+";";
+        String query = "SELECT "+ _id +", " + wor + " FROM "+ tableName +";";
 
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = null;

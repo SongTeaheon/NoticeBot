@@ -36,10 +36,8 @@ public class NetworkTask extends AsyncTask<Void, Void, JSONObject> {
         //doInBackground()로 부터 리턴된 값이 onPostExecute()의 매개변수로 넘어오므로 s를 출력한다.
         if(res != null) {
             try {
-                Log.d(TAG, res.getString("message"));
-
                 if(res.getString("message").equals("wrong response code")) {
-                    AlertUtils.alertFunc((Context) callbackActivity, "somethig wrong", "response code : " + res.getInt("code"));
+                    Utils.alertFunc((Context) callbackActivity, "somethig wrong", "response code : " + res.getInt("code"));
                 }else {
                     callbackActivity.callback(res);
                 }

@@ -1,14 +1,7 @@
 package com.example.noticebot;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -25,12 +18,20 @@ public class LoginActivity extends AppCompatActivity implements HttpCallback{
 
     EditText EditText_name, EditText_password;
     Button Button_Login, Button_Signup;
+    DBHelper dbHelper;
 
+    String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        //토큰을 위한 dbHelper
+        if(dbHelper == null){
+            Log.d(TAG, "new DBHelper ");
+            dbHelper = new DBHelper(this, "APP_DB", null, 1);
+        }
 
         EditText_name = findViewById(R.id.EditText_email);
         EditText_password = findViewById(R.id.EditText_password);
@@ -42,11 +43,11 @@ public class LoginActivity extends AppCompatActivity implements HttpCallback{
         Button_Login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name = EditText_name.getText().toString();
+                name = EditText_name.getText().toString();
                 String password = EditText_password.getText().toString();
                 Log.d(TAG, "name :" + name);
                 if(name.isEmpty()|| password.isEmpty()){
-                    AlertUtils.alertFunc(LoginActivity.this, "값 없음", "아이디와 비밀번호를 모두 넣어주세요");
+                    Utils.alertFunc(LoginActivity.this, "값 없음", "아이디와 비밀번호를 모두 넣어주세요");
                 }else {
                     login(name, password);
                     SaveSharedPreference.setUserName(LoginActivity.this, EditText_name.getText().toString());
@@ -99,9 +100,10 @@ public class LoginActivity extends AppCompatActivity implements HttpCallback{
         try {
             String msg = resultJson.getString("message");
             if(msg.equals("login success")){
+                Utils.sendTokenToServer(name, dbHelper.getToken());
                 moveToMainActivity();
             }else{
-                AlertUtils.alertFunc(LoginActivity.this, "로그인 실패", "id와 pw를 확인해주세요");
+                Utils.alertFunc(LoginActivity.this, "로그인 실패", "id와 pw를 확인해주세요");
             }
         } catch (JSONException e) {
             e.printStackTrace();

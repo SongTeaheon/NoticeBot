@@ -2,9 +2,14 @@ package com.example.noticebot;
 
 public class DataNotices {
 
-    private String keyword;
     private String title;
     private String link;
+
+
+    public DataNotices(String title, String link) {
+        this.title = title;
+        this.link = link;
+    }
 
     public String getLink() {
         return link;
@@ -21,14 +26,5 @@ public class DataNotices {
     public void setTitle(String title) {
         this.title = title;
     }
-
-    public String getKeyword() {
-        return keyword;
-    }
-
-    public void setKeyword(String keyword) {
-        this.keyword = keyword;
-    }
-
 
 }

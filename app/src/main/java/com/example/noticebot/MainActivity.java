@@ -16,9 +16,11 @@ import android.view.MenuItem;
 
 import android.os.Bundle;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements HttpCallback{
@@ -37,8 +39,16 @@ public class MainActivity extends AppCompatActivity implements HttpCallback{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        requestData();
+        if(dbHelper == null){
+            Log.d(TAG, "new DBHelper ");
+            dbHelper = new DBHelper(MainActivity.this, "APP_DB", null, 1);
+            dbHelper.createKeywordTable();
+            dbHelper.createTokenTable();//onNewToken에서 불리지만, 만약을 대비해서!!
+        }
 
+        requestData();
+        //TODO: test token 확인
+        Log.d(TAG, "token check : " + dbHelper.getToken());
         //메뉴 액션바
         getSupportActionBar().setTitle("메인화면");
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xFF339999));
@@ -53,19 +63,14 @@ public class MainActivity extends AppCompatActivity implements HttpCallback{
         recyclerView.setAdapter(adapter);
 
         // test로 임의의 리스트 형성
-        testNoticesList();
+//        testNoticesList();
 
         adapter.notifyDataSetChanged();
     }
 
     //리사이클러 뷰 아이템 형성
     public void addItem(String keyword, String title) {
-        DataNotices item = new DataNotices();
-
-        item.setKeyword(keyword);
-        item.setTitle(title);
-        item.setLink("https://uos.ac.kr/korNotice/view.do?list_id=FA1&seq=21688&sort=1&epTicket=LOG");
-
+        DataNotices item = new DataNotices(title, "https://uos.ac.kr/korNotice/view.do?list_id=FA1&seq=21688&sort=1&epTicket=LOG");
         mList.add(item);
     }
 
@@ -114,13 +119,7 @@ public class MainActivity extends AppCompatActivity implements HttpCallback{
                         new DialogInterface.OnClickListener() {
                             public void onClick(
                                     DialogInterface dialog, int id) {
-                                //로그인 기록 삭제
-                                SaveSharedPreference.clearUserName(MainActivity.this);
-                                if(dbHelper == null){
-                                    Log.d(TAG, "new DBHelper ");
-                                    dbHelper = new DBHelper(MainActivity.this, "APP_DB", null, 1);
-                                    dbHelper.deleteAll();
-                                }
+                                clearData();
                                 //바로 종료보다는 로그인 화면으로 돌아가는 게 더 좋지 않나..?
                                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                                 startActivity(intent);
@@ -200,12 +199,14 @@ public class MainActivity extends AppCompatActivity implements HttpCallback{
     }
 
     void requestData(){
+        Log.d(TAG, "requestData");
         try {
             JSONObject data = new JSONObject();
             data.put("type", "데이터 내놔!!");
             String name = SaveSharedPreference.getUserName(this);
             data.put("name", name);
-            NetworkTask networkTask = new NetworkTask(this, data, "data");
+            Log.d(TAG, "sending data json : " + data.toString());
+            NetworkTask networkTask = new NetworkTask(this, data, "notice");
             networkTask.execute();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -219,6 +220,16 @@ public class MainActivity extends AppCompatActivity implements HttpCallback{
         try {
             String msg = resultJson.getString("message");
             //TODO: mList에 날아온 데이터를 세팅한다.
+            Log.d(TAG, "resulsJosn : " + resultJson.toString());
+            JSONArray data = resultJson.getJSONArray("result");
+            for(int i = 0; i < data.length(); i++){
+                JSONObject object = data.getJSONObject(i);
+                String link = object.getString("link");
+                String title = object.getString("title");
+                DataNotices dataNotices = new DataNotices(title, link);
+                mList.add(dataNotices);
+            }
+
             setRecyclerView();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -229,6 +240,19 @@ public class MainActivity extends AppCompatActivity implements HttpCallback{
         // 리사이클러뷰에 SimpleTextAdapter 객체 지정.
         MainNoticesAdapter adapter = new MainNoticesAdapter(this, mList);
         recyclerView.setAdapter(adapter);
+    }
+
+    private void clearData(){
+        String name = SaveSharedPreference.getUserName(MainActivity.this);
+
+        //db삭제
+        dbHelper.deleteAll();
+
+        //토큰 삭제
+        Utils.sendTokenToServer(name, "no token");
+
+        //로그인 기록 삭제
+        SaveSharedPreference.clearUserName(MainActivity.this);
 
     }
 }

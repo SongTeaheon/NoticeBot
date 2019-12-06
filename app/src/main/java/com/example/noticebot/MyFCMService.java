@@ -22,7 +22,13 @@ import org.json.JSONObject;
 
 public class MyFCMService extends FirebaseMessagingService {
     private final String TAG = "TAGMyFCMService";
+    DBHelper dbHelper;
+
     public MyFCMService() {
+        if(dbHelper == null){
+            Log.d(TAG, "new DBHelper ");
+            dbHelper = new DBHelper(this, "APP_DB", null, 1);
+        }
     }
 
     @Override
@@ -50,30 +56,20 @@ public class MyFCMService extends FirebaseMessagingService {
         // If you want to send messages to this application instance or
         // manage this apps subscriptions on the server side, send the
         // Instance ID token to your app server.
-        sendRegistrationToServer(token);
+        dbHelper.createTokenTable();
+        dbHelper.saveToken(token);
+
+        String name = SaveSharedPreference.getUserName(this);
+        if(name.length() >0) {
+            sendRegistrationToServer(name, token);
+        }else{
+            Log.d(TAG, "토큰은 생성되었지만 로그인이 안되어있어, 서버에 저장하지 않았습니다.");
+        }
     }
 
-
-
-    //??
-    private void sendRegistrationToServer(String token) {
-        Log.d(TAG, "login func start");
-        try {
-            JSONObject data = new JSONObject();
-            data.put("type", "token");
-            String name = SaveSharedPreference.getUserName(this);
-            data.put("name", name);
-            data.put("token", token);
-            NetworkTask networkTask = new NetworkTask(new HttpCallback() {
-                @Override
-                public void callback(JSONObject resultJson) {
-                    Log.d(TAG, resultJson.toString());
-                }
-            }, data, "login");
-            networkTask.execute();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+    private void sendRegistrationToServer(String name, String token) {
+        Log.d(TAG, "토큰은 생성되었고, 서버에 저장! id : " + name);
+        Utils.sendTokenToServer(name, token);
     }
 
     private void sendNotification(String messageBody) {
@@ -104,6 +100,9 @@ public class MyFCMService extends FirebaseMessagingService {
             NotificationChannel channel = new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_HIGH);
             notificationManager.createNotificationChannel(channel);
         }
-        notificationManager.notify(0, notificationBuilder.build());
+        boolean isOn = SaveSharedPreference.getFunctionSwtich(this);
+        if(isOn) {
+            notificationManager.notify(0, notificationBuilder.build());
+        }
     }
 }

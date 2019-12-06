@@ -1,12 +1,7 @@
 package com.example.noticebot;
 
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.app.AlertDialog;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -49,11 +44,11 @@ public class SignupActivity extends AppCompatActivity implements HttpCallback{
                 String newPasswordCheck = EditText_NEWpasswordcheck.getText().toString();
 
                 if(!newEmail.matches("[0-9]*") || newEmail.length() != 10) {
-                    AlertUtils.alertFunc(SignupActivity.this, "아이디 형식 불일치", "학번(숫자 10자)로 가입하시기 바랍니다.");
+                    Utils.alertFunc(SignupActivity.this, "아이디 형식 불일치", "학번(숫자 10자)로 가입하시기 바랍니다.");
                 }else if(newPassword.length() == 0){
-                    AlertUtils.alertFunc(SignupActivity.this, "비밀번호 불일치", "비밀번호를 입력하시기 바랍니다.");
+                    Utils.alertFunc(SignupActivity.this, "비밀번호 불일치", "비밀번호를 입력하시기 바랍니다.");
                 }else if(!newPassword.equals(newPasswordCheck)) {//비밀번호 불일치
-                    AlertUtils.alertFunc(SignupActivity.this, "비밀번호 불일치", "비밀번호를 일치시켜주시기 바랍니다.");
+                    Utils.alertFunc(SignupActivity.this, "비밀번호 불일치", "비밀번호를 일치시켜주시기 바랍니다.");
                 }else{
                     signUp(newEmail, newPassword);
                 }
@@ -86,7 +81,7 @@ public class SignupActivity extends AppCompatActivity implements HttpCallback{
             if(msg.equals("record inserted.")){
                 moveToMainActivity();
             }else if(msg.equals("name already exist")){
-                AlertUtils.alertFunc(SignupActivity.this, "회원가입 실패", "해당 id가 이미 존재합니다.");
+                Utils.alertFunc(SignupActivity.this, "회원가입 실패", "해당 id가 이미 존재합니다.");
             }
         } catch (JSONException e) {
             e.printStackTrace();

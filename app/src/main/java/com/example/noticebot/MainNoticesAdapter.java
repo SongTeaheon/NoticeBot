@@ -63,7 +63,7 @@ public class MainNoticesAdapter extends RecyclerView.Adapter<MainNoticesAdapter.
     public void onBindViewHolder(@NonNull NoticesViewHolder viewholder, final int position) {
         final DataNotices item = mList.get(position) ;
 
-        viewholder.keyword.setText(item.getKeyword());
+        viewholder.keyword.setText("???");
         viewholder.title.setText(item.getTitle()) ;
         viewholder.title.setOnClickListener(new View.OnClickListener() {
             @Override
