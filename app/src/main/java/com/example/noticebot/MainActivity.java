@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements HttpCallback{
 
         Log.d(TAG, "token check : " + dbHelper.getToken());
         //메뉴 액션바
-        getSupportActionBar().setTitle("메인화면");
+        getSupportActionBar().setTitle( getIntent().getStringExtra("userName")+"님 환영합니다." );
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xFF339999));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -101,6 +101,7 @@ public class MainActivity extends AppCompatActivity implements HttpCallback{
             //설정 버튼 눌렀을 때
             case R.id.Item_MenuSetting:
                 Intent intent = new Intent(MainActivity.this, CustomActivity.class);
+                intent.putExtra("userName", SaveSharedPreference.getUserName(this).toString());
                 startActivity(intent);
                 break;
 

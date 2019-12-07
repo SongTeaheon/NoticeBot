@@ -53,7 +53,6 @@ public class LoginActivity extends AppCompatActivity implements HttpCallback{
                     Utils.alertFunc(LoginActivity.this, "값 없음", "아이디와 비밀번호를 모두 넣어주세요");
                 }else {
                     login(name, password);
-//                    SaveSharedPreference.setUserName(LoginActivity.this, EditText_Id.getText().toString());
                 }
             }
         });
@@ -85,7 +84,7 @@ public class LoginActivity extends AppCompatActivity implements HttpCallback{
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            SaveSharedPreference.setUserName(LoginActivity.this, EditText_Id.getText().toString());
+            SaveSharedPreference.setUserName(LoginActivity.this, name);
         }
 
 
@@ -94,6 +93,7 @@ public class LoginActivity extends AppCompatActivity implements HttpCallback{
 
     private void moveToMainActivity(){
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        intent.putExtra("userName", name);
         startActivity(intent);
     }
     private void moveToSignupActivity(){

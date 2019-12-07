@@ -53,11 +53,7 @@ public class StartActivity extends AppCompatActivity {
 
 
     void checkNewLogin() {
-        if (checkInternetState()) {
-            intent = new Intent(StartActivity.this, LoginActivity.class);
-            startActivity(intent);
-            this.finish();
-        } else if (SaveSharedPreference.getUserName(StartActivity.this).length() == 0) {
+        if (SaveSharedPreference.getUserName(StartActivity.this).length() == 0) {
             // call Login Activity
             intent = new Intent(StartActivity.this, LoginActivity.class);
             startActivity(intent);
@@ -65,7 +61,7 @@ public class StartActivity extends AppCompatActivity {
         } else {
             // Call Next Activity
             intent = new Intent(StartActivity.this, MainActivity.class);
-            intent.putExtra("STD_NUM", SaveSharedPreference.getUserName(this).toString());
+            intent.putExtra("userName", SaveSharedPreference.getUserName(this));
             startActivity(intent);
             this.finish();
         }
