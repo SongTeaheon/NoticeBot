@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity implements HttpCallback{
     private final String TAG = "TAGMainActivity";
     DBHelper dbHelper;
     RecyclerView RecyclerView_NoticeMain;
-    TextView networkAlert;
 
 
     //화면 레이아웃

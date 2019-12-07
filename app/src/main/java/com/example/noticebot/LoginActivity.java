@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -73,16 +74,21 @@ public class LoginActivity extends AppCompatActivity implements HttpCallback{
     * */
     private void login(String name, String password){
         Log.d(TAG, "login func start");
-        try {
-            JSONObject data = new JSONObject();
-            data.put("type", "login");
-            data.put("name", name);
-            data.put("pw", password);
-            NetworkTask networkTask = new NetworkTask(this, data, "login");
-            networkTask.execute();
-        } catch (JSONException e) {
-            e.printStackTrace();
+//        checkInternetState();
+        if(checkInternetState()) {
+            try {
+                JSONObject data = new JSONObject();
+                data.put("type", "login");
+                data.put("name", name);
+                data.put("pw", password);
+                NetworkTask networkTask = new NetworkTask(this, data, "login");
+                networkTask.execute();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
+
+
 
     }
 
@@ -140,6 +146,23 @@ public class LoginActivity extends AppCompatActivity implements HttpCallback{
                         });
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
+    }
+
+    //인터넷 연결상태 체크
+    private boolean checkInternetState() {
+        int networkStatus = NetworkStatus.getConnectivityStatus(getApplicationContext());
+        boolean ableToLogin;
+
+
+        if(networkStatus != NetworkStatus.TYPE_MOBILE && networkStatus != NetworkStatus.TYPE_WIFI) {
+            Toast.makeText(LoginActivity.this,
+                    "현재 네트워크에 연결되어 있지 않습니다. 어플리케이션을 정상적으로 작동시키시려면 데이터 네트워크 혹은 와이파이에 연결해주시기 바랍니다.",Toast.LENGTH_LONG).show();
+            ableToLogin = false;
+        } else{
+            ableToLogin = true;
+        }
+
+        return ableToLogin;
     }
 
 }
