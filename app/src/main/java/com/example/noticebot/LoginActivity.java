@@ -1,5 +1,7 @@
 package com.example.noticebot;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -108,6 +110,36 @@ public class LoginActivity extends AppCompatActivity implements HttpCallback{
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public void onBackPressed() {
+        alertExit();
+    }
+
+    //종료 경고창
+    private void alertExit(){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoginActivity.this);
+        alertDialogBuilder.setTitle("프로그램 종료");
+        alertDialogBuilder
+                .setMessage("프로그램을 종료하시겠습니까?")
+                .setCancelable(false)
+                .setPositiveButton("확인",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(
+                                    DialogInterface dialog, int id) {
+                                // 프로그램을 종료한다
+                                moveTaskToBack(true);
+                            }
+                        })
+                .setNegativeButton("취소",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(
+                                    DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 
 }
