@@ -53,7 +53,7 @@ public class LoginActivity extends AppCompatActivity implements HttpCallback{
                     Utils.alertFunc(LoginActivity.this, "값 없음", "아이디와 비밀번호를 모두 넣어주세요");
                 }else {
                     login(name, password);
-                    SaveSharedPreference.setUserName(LoginActivity.this, EditText_Id.getText().toString());
+//                    SaveSharedPreference.setUserName(LoginActivity.this, EditText_Id.getText().toString());
                 }
             }
         });
@@ -74,7 +74,6 @@ public class LoginActivity extends AppCompatActivity implements HttpCallback{
     * */
     private void login(String name, String password){
         Log.d(TAG, "login func start");
-//        checkInternetState();
         if(checkInternetState()) {
             try {
                 JSONObject data = new JSONObject();
@@ -86,6 +85,7 @@ public class LoginActivity extends AppCompatActivity implements HttpCallback{
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+            SaveSharedPreference.setUserName(LoginActivity.this, EditText_Id.getText().toString());
         }
 
 
@@ -152,7 +152,6 @@ public class LoginActivity extends AppCompatActivity implements HttpCallback{
     private boolean checkInternetState() {
         int networkStatus = NetworkStatus.getConnectivityStatus(getApplicationContext());
         boolean ableToLogin;
-
 
         if(networkStatus != NetworkStatus.TYPE_MOBILE && networkStatus != NetworkStatus.TYPE_WIFI) {
             Toast.makeText(LoginActivity.this,

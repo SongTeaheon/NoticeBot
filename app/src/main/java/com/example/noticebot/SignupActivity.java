@@ -67,16 +67,20 @@ public class SignupActivity extends AppCompatActivity implements HttpCallback{
 
     private void signUp(String name, String password){
         Log.d(TAG, "sign up func start");
-        try {
-            JSONObject data = new JSONObject();
-            data.put("type", "signup");
-            data.put("name", name);
-            data.put("pw", password);
-            NetworkTask networkTask = new NetworkTask(this, data, "signup");
-            networkTask.execute();
-        } catch (JSONException e) {
-            e.printStackTrace();
+
+        if(checkInternetState()) {
+            try {
+                JSONObject data = new JSONObject();
+                data.put("type", "signup");
+                data.put("name", name);
+                data.put("pw", password);
+                NetworkTask networkTask = new NetworkTask(this, data, "signup");
+                networkTask.execute();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
+
     }
 
     @Override
@@ -112,6 +116,21 @@ public class SignupActivity extends AppCompatActivity implements HttpCallback{
         return !matcher.matches();
     }
 
+    private boolean checkInternetState() {
+        int networkStatus = NetworkStatus.getConnectivityStatus(getApplicationContext());
+        boolean ableToLogin;
+
+
+        if(networkStatus != NetworkStatus.TYPE_MOBILE && networkStatus != NetworkStatus.TYPE_WIFI) {
+            Toast.makeText(SignupActivity.this,
+                    "현재 네트워크에 연결되어 있지 않습니다. 어플리케이션을 정상적으로 작동시키시려면 데이터 네트워크 혹은 와이파이에 연결해주시기 바랍니다.",Toast.LENGTH_LONG).show();
+            ableToLogin = false;
+        } else{
+            ableToLogin = true;
+        }
+
+        return ableToLogin;
+    }
 
 }
 
