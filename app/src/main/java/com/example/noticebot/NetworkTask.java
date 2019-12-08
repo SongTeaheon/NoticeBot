@@ -37,7 +37,8 @@ public class NetworkTask extends AsyncTask<Void, Void, JSONObject> {
         if(res != null) {
             try {
                 if(res.getString("message").equals("wrong response code")) {
-                    Utils.alertFunc((Context) callbackActivity, "somethig wrong", "response code : " + res.getInt("code"));
+                    Log.d(TAG, "something wrong. code : " + res.getInt("code"));
+//                    Utils.alertFunc((Context) callbackActivity, "somethig wrong", "response code : " + res.getInt("code"));
                 }else {
                     callbackActivity.callback(res);
                 }

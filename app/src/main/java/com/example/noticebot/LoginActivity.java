@@ -12,8 +12,11 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 
 public class LoginActivity extends AppCompatActivity implements HttpCallback{
@@ -34,6 +37,7 @@ public class LoginActivity extends AppCompatActivity implements HttpCallback{
         if(dbHelper == null){
             Log.d(TAG, "new DBHelper ");
             dbHelper = new DBHelper(this, "APP_DB", null, 1);
+            dbHelper.createKeywordTable();
         }
 
         EditText_Id = findViewById(R.id.EditText_Id);
@@ -109,6 +113,15 @@ public class LoginActivity extends AppCompatActivity implements HttpCallback{
             String msg = resultJson.getString("message");
             if(msg.equals("login success")){
                 Utils.sendTokenToServer(name, dbHelper.getToken());
+                JSONArray array = resultJson.getJSONArray("key");
+                dbHelper.deleteAllKeyword();
+
+                for(int i = 0; i < array.length(); i++){
+                    String keyword = array.getString(i);
+                    Log.d(TAG, "add keyword : " + keyword);
+                    dbHelper.addKeyword(keyword);
+                }
+
                 moveToMainActivity();
             }else{
                 Utils.alertFunc(LoginActivity.this, "로그인 실패", "id와 pw를 확인해주세요");

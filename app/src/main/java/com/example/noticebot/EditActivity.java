@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -253,7 +254,6 @@ public class EditActivity extends AppCompatActivity implements HttpCallback{
                                 intent.putStringArrayListExtra("list", mList);
                                 intent.putExtra("save", 1);
                                 setResult(RESULT_OK, intent);
-                                finish();
                             }
                         })
                 .setNegativeButton("취소",
@@ -276,13 +276,25 @@ public class EditActivity extends AppCompatActivity implements HttpCallback{
     }
 
     private JSONObject makeJson(){
+        Log.d(TAG, "makeJson");
         JSONObject resJSON = new JSONObject();
         try {
             resJSON.put("type", "keyword");
             String name = SaveSharedPreference.getUserName(this);
             resJSON.put("name", name);
-            resJSON.put("add", addedList);
-            resJSON.put("delete", deletedList);
+            JSONArray jsonArrayAdded = new JSONArray();
+            JSONArray jsonArrayDeleted = new JSONArray();
+
+            for(int i = 0; i < addedList.size(); i++){
+                Log.d(TAG, "added : " + i + " - " + addedList.get(i));
+                jsonArrayAdded.put(addedList.get(i));
+            }
+            for(int i = 0; i < deletedList.size(); i++){
+                Log.d(TAG, "deleted : " + i + " - " + deletedList.get(i));
+                jsonArrayDeleted.put(deletedList.get(i));
+            }
+            resJSON.put("add", (Object)jsonArrayAdded);
+            resJSON.put("delete", (Object)jsonArrayDeleted);
             resJSON.put("normal", (toggleState(ToggleButton_Board1)? 1 : 0));
             resJSON.put("school", (toggleState(ToggleButton_Board2)? 1 : 0));
             Log.d(TAG, resJSON.toString());
@@ -303,6 +315,7 @@ public class EditActivity extends AppCompatActivity implements HttpCallback{
     @Override
     public void callback(JSONObject resultJson) {
         Log.d(TAG, "callback : " + resultJson.toString());
+        finish();
     }
 
     //deletedList에 있는 Item이 mList에 있는 경우 확인
