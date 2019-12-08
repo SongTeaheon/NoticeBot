@@ -84,7 +84,7 @@ public class LoginActivity extends AppCompatActivity implements HttpCallback{
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            SaveSharedPreference.setUserName(LoginActivity.this, name);
+//            SaveSharedPreference.setUserName(LoginActivity.this, name);
         }
 
 
@@ -109,6 +109,7 @@ public class LoginActivity extends AppCompatActivity implements HttpCallback{
             String msg = resultJson.getString("message");
             if(msg.equals("login success")){
                 Utils.sendTokenToServer(name, dbHelper.getToken());
+                SaveSharedPreference.setUserName(LoginActivity.this, name);
                 moveToMainActivity();
             }else{
                 Utils.alertFunc(LoginActivity.this, "로그인 실패", "id와 pw를 확인해주세요");
