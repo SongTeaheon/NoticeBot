@@ -88,7 +88,7 @@ public class LoginActivity extends AppCompatActivity implements HttpCallback{
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            SaveSharedPreference.setUserName(LoginActivity.this, name);
+//            SaveSharedPreference.setUserName(LoginActivity.this, name);
         }
 
 
@@ -113,6 +113,7 @@ public class LoginActivity extends AppCompatActivity implements HttpCallback{
             String msg = resultJson.getString("message");
             if(msg.equals("login success")){
                 Utils.sendTokenToServer(name, dbHelper.getToken());
+                SaveSharedPreference.setUserName(LoginActivity.this, name);
                 JSONArray array = resultJson.getJSONArray("key");
                 dbHelper.deleteAllKeyword();
 

@@ -93,6 +93,7 @@ public class SignupActivity extends AppCompatActivity implements HttpCallback{
             if(msg.equals("record inserted.")){
                 Utils.sendTokenToServer(name, dbHelper.getToken());
                 Toast.makeText(SignupActivity.this, "신규 생성된 회원정보로 로그인합니다.", Toast.LENGTH_LONG).show();
+                SaveSharedPreference.setUserName(SignupActivity.this, name);
                 moveToMainActivity();
             }else if(msg.equals("name already exist")){
                 Utils.alertFunc(SignupActivity.this, "회원가입 실패", "해당 id가 이미 존재합니다.");
